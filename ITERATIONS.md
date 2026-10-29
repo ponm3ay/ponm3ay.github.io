@@ -107,6 +107,21 @@ QA 环境：本机 Edge 156 无头（127.0.0.1:9222 常驻）+ node 静态服务
 **改动**: 新增方舟风 404 页（描边 404 + SIGNAL LOST + 切角按钮）；加 theme-color。
 **复检**: 404 页渲染正常无 JS 错误。
 
+## Round 23（线上端到端轮）
+**部署**: 仓库 ponm3ay/ponm3ay.github.io 创建 → push → Pages 构建完成。
+**结果**: https://ponm3ay.github.io 200（页面/CSS/JS/字体）；线上渲染 name=gugu / mail / 6 项目 / 字体已加载 / secureContext=true；https 下管理台令牌解锁 PASS。发现唯一 console 404（content.json 可选层探测）。
+**修复**: 仓库放入空 `content.json`（占位覆盖层），404 消除。
+
+## Round 24（终检轮）
+**结果**: Pages 重新构建完成；线上 content.json 200；线上控制台 **(clean)** 零错误；标题正确。视觉迭代完成，共 24 轮。
+
+---
+## 附加处置记录
+- 会话中发现上一会话遗留的平行实现 `js/content.js`+`js/sha256.js`（未被引用，含旧令牌哈希），已从仓库移除（git 历史可找回）。
+- 部署期间 Mimosa 安全钩子拦截过 `_qa/edge-tmp`（一次性 Edge 配置目录，误报），已清理后放行。
+- 无系统代理（ProxyEnable=0）；GitHub 直连不稳定但重试可通，未启用代理。
+
+
 
 
 
