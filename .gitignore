@@ -1,0 +1,9 @@
+# QA 工具与截图（不属于站点）
+_qa/
+_research/
+
+# 系统文件
+Thumbs.db
+.DS_Store
+*.log
+node_modules/

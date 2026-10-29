@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <pattern id="hz" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#0e1014"/>
+      <rect width="5" height="10" fill="#15171d"/>
+    </pattern>
+  </defs>
+  <rect width="120" height="120" fill="url(#hz)"/>
+  <path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#f0c12f" stroke-width="2"/>
+  <path d="M60 32 88 60 60 88 32 60Z" fill="rgba(240,193,47,.12)" stroke="rgba(240,193,47,.5)" stroke-width="1"/>
+  <text x="60" y="69" text-anchor="middle" font-family="'Chakra Petch',Consolas,monospace" font-size="24" font-weight="700" fill="#e8e6e1" letter-spacing="2">P3</text>
+  <text x="60" y="112" text-anchor="middle" font-family="Consolas,monospace" font-size="6" fill="#5d5c56" letter-spacing="3">OPERATOR</text>
+</svg>

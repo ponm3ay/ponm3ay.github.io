@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PONM3AY // PERSONAL ARCHIVE</title>
+<meta name="description" content="PONM3AY 的个人档案站 —— AI 工具 / 桌面自动化 / CV 训练流水线。OPERATOR FILE // No.001">
+<meta name="theme-color" content="#0a0b0e">
+<meta property="og:title" content="PONM3AY // PERSONAL ARCHIVE">
+<meta property="og:description" content="把重复劳动拆成模块，交给脚本与 agent。">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preload" href="assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/chakra-petch-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<noscript><div class="noscript-note">本站需要启用 JavaScript 才能加载档案数据。STATIC FALLBACK: PONM3AY — github.com/ponm3ay — sevenmaples@163.com</div></noscript>
+
+<!-- ===== 开机启动序列 ===== -->
+<div id="boot" aria-hidden="true">
+  <div class="boot-inner mono">
+    <div class="boot-lines" id="bootLines"></div>
+    <div class="boot-bar"><i id="bootBarFill"></i></div>
+    <p class="boot-status"><span id="bootPct">LOADING - 0%</span><span>LOADING</span></p>
+    <button id="bootSkip" class="boot-skip mono" type="button">SKIP ▸▸</button>
+  </div>
+</div>
+
+<!-- ===== 滚动进度 ===== -->
+<div class="scroll-progress" aria-hidden="true"><i id="scrollBar"></i></div>
+
+<!-- ===== 导航 ===== -->
+<header class="nav" id="nav">
+  <div class="nav-inner container">
+    <a class="nav-logo" href="#top" aria-label="返回顶部">
+      <svg class="nav-logo-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 23 12 12 23 1 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 6.5 17.5 12 12 17.5 6.5 12Z" fill="currentColor"/></svg>
+      <span class="nav-logo-text mono">P3<span class="nav-logo-sub">// ARCHIVE</span></span>
+    </a>
+    <nav class="nav-links mono" id="navLinks" aria-label="站内导航">
+      <a href="#top" class="nav-link is-active"><i>00</i>TOP</a>
+      <a href="#profile" class="nav-link"><i>01</i>档案</a>
+      <a href="#operations" class="nav-link"><i>02</i>作战</a>
+      <a href="#log" class="nav-link"><i>03</i>日志</a>
+      <a href="#connect" class="nav-link"><i>04</i>连接</a>
+    </nav>
+    <div class="nav-right mono">
+      <span class="nav-clock" id="navClock">LOCAL --:--:--</span>
+      <span class="nav-online"><i class="dot" aria-hidden="true"></i>ONLINE</span>
+      <button class="nav-burger" id="navBurger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div class="hero-main">
+        <p class="hero-file mono reveal">OPERATOR FILE // <span data-c="identity.fileNo">No.001</span> · CLEARANCE <span data-c="identity.clearance">PUBLIC</span></p>
+        <h1 class="hero-name glitch reveal" data-text="PONM3AY">PONM3AY</h1>
+        <p class="hero-sub mono reveal"><span data-c="identity.name">gugu</span> · <span data-c="identity.role">AI TOOLS / AUTOMATION / CV</span></p>
+        <p class="hero-mission reveal" data-c="identity.mission">把重复劳动拆成模块，交给脚本与 agent——<br>人在回路之外，安心睡觉。</p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-solid" href="#operations">开始行动<span class="btn-en mono">VIEW OPERATIONS</span></a>
+          <a class="btn btn-ghost" href="#connect">建立连接<span class="btn-en mono">LINK →</span></a>
+        </div>
+        <div class="hero-quick mono reveal">
+          <a class="hq-link" id="hqMail" href="mailto:sevenmaples@163.com"><i>MAIL</i><span data-c="connect.mail">sevenmaples@163.com</span></a>
+          <a class="hq-link" id="hqGit" href="https://github.com/ponm3ay" target="_blank" rel="noopener"><i>GITHUB</i><span data-c="connect.github">github.com/ponm3ay</span></a>
+        </div>
+      </div>
+      <aside class="hero-aside reveal" aria-label="状态面板">
+        <div class="status-card panel-corners">
+          <div class="status-head mono"><span>CORE // RHOMBUS</span><span class="sync mono">SYNC <b id="syncVal">99.7</b>%</span></div>
+          <div class="core-visual" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <g class="core-spin">
+                <path d="M100 30 170 100 100 170 30 100Z" fill="none" stroke="rgba(240,193,47,.85)" stroke-width="1.5"/>
+                <path d="M100 55 145 100 100 145 55 100Z" fill="rgba(240,193,47,.06)" stroke="rgba(240,193,47,.45)" stroke-width="1"/>
+              </g>
+              <g class="core-spin-rev">
+                <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(232,230,225,.14)" stroke-width="1" stroke-dasharray="4 10"/>
+                <path d="M100 78 122 100 100 122 78 100Z" fill="rgba(240,193,47,.9)"/>
+              </g>
+              <g class="mono core-label" fill="rgba(232,230,225,.55)" font-size="7" font-family="monospace">
+                <text x="100" y="14" text-anchor="middle">000</text>
+                <text x="192" y="103" text-anchor="middle">090</text>
+                <text x="100" y="195" text-anchor="middle">180</text>
+                <text x="8" y="103" text-anchor="middle">270</text>
+              </g>
+            </svg>
+            <span class="core-scan" aria-hidden="true"></span>
+          </div>
+          <dl class="status-grid mono">
+            <div><dt>SIGNAL</dt><dd class="ok">ACTIVE</dd></div>
+            <div><dt>SECTOR</dt><dd data-c="identity.location">CN / [待编辑]</dd></div>
+            <div><dt>UPDATED</dt><dd data-c="meta.updated">2026.10</dd></div>
+            <div><dt>FOCUS</dt><dd data-c="identity.focus">AI × TOOLS × OPS</dd></div>
+          </dl>
+        </div>
+        <div class="avatar-card panel-corners">
+          <img id="avatarImg" src="assets/img/avatar.svg" alt="干员头像 OPERATOR ICON" width="112" height="112">
+          <div class="avatar-meta mono">
+            <span class="avatar-label">OPERATOR ICON</span>
+            <span class="avatar-id" data-c="identity.codename">PONM3AY</span>
+          </div>
+          <span class="avatar-scan" aria-hidden="true"></span>
+        </div>
+      </aside>
+    </div>
+    <div class="hero-foot mono container">
+      <span>SCROLL <b>▼</b></span>
+      <span class="hero-foot-mid">RHODES-like PERSONAL NODE · EST. 2022</span>
+      <span id="heroXY">X:0000 / Y:0000</span>
+    </div>
+  </section>
+
+  <!-- ===== 跑马灯 ===== -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track mono" id="tickerTrack"></div>
+  </div>
+
+  <!-- ===== 统计带 ===== -->
+  <section class="stats" aria-label="GitHub 数据统计">
+    <div class="container stats-grid">
+      <div class="stat reveal"><span class="stat-num mono" data-c="stats.repos">08</span><span class="stat-label mono">PUBLIC REPOS · 公开仓库</span></div>
+      <div class="stat reveal"><span class="stat-num mono" data-c="stats.stars">05</span><span class="stat-label mono">STARS EARNED · 获得星标</span></div>
+      <div class="stat reveal"><span class="stat-num mono" data-c="stats.followers">00</span><span class="stat-label mono">FOLLOWERS · 关注者</span></div>
+      <div class="stat reveal"><span class="stat-num mono" data-c="stats.since">2022.10</span><span class="stat-label mono">ON TERRA · 加入 GitHub</span></div>
+    </div>
+  </section>
+
+  <!-- ===== 01 档案 ===== -->
+  <section class="sec" id="profile">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-index mono">01 / PROFILE</p>
+        <h2 class="sec-title"><span class="sec-cn">干员档案</span><span class="sec-en mono">OPERATOR FILE</span></h2>
+        <span class="sec-num mono" aria-hidden="true">01</span>
+      </header>
+      <div class="profile-grid">
+        <article class="panel bio-panel panel-corners reveal">
+          <p class="panel-tag mono">// 情报摘要 BRIEFING</p>
+          <h3 class="bio-title">Codename <b data-c="identity.codename">PONM3AY</b></h3>
+          <p class="bio-text" data-c="identity.bio">白天拆需求、写插件；晚上把日常动作自动化成脚本，然后 DeepSleep~zzz。专注 LLM agent 插件生态（DSH）、桌面自动化工具链与 CV 训练流水线 —— safeyolo、dsh-plugins、autoclaw-proxy 的维护者。</p>
+          <div class="bio-chips mono" id="bioChips">
+            <span class="chip">ROLE · 独立开发者</span>
+            <span class="chip">FOCUS · AGENT / TOOLS</span>
+            <span class="chip">AVAILABILITY · OPEN</span>
+          </div>
+        </article>
+        <article class="panel attrs-panel panel-corners reveal">
+          <p class="panel-tag mono">// 能力评估 ATTRIBUTES</p>
+          <p class="attrs-sub mono">自评示例 · 可在管理后台修改</p>
+          <div class="attr" id="attrsList"></div>
+        </article>
+      </div>
+      <article class="panel modules-panel reveal">
+        <div class="modules-head">
+          <p class="panel-tag mono">// 模块阵列 MODULES</p>
+          <p class="modules-count mono"><b id="modulesCount">10</b> LOADED</p>
+        </div>
+        <ul class="modules-grid mono" id="modulesList"></ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== 02 作战 ===== -->
+  <section class="sec" id="operations">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-index mono">02 / OPERATIONS</p>
+        <h2 class="sec-title"><span class="sec-cn">作战记录</span><span class="sec-en mono">CASE FILES</span></h2>
+        <span class="sec-num mono" aria-hidden="true">02</span>
+      </header>
+      <div class="ops-pager mono reveal" aria-hidden="true">
+        <button class="ops-btn" id="opsPrev" type="button" aria-label="上一批项目">‹</button>
+        <span class="ops-counter"><i id="opsIdx">01</i> / <span id="opsTotal">06</span></span>
+        <button class="ops-btn" id="opsNext" type="button" aria-label="下一批项目">›</button>
+      </div>
+      <div class="ops-viewport reveal" id="opsViewport" tabindex="0" aria-label="项目列表，可左右滚动">
+        <div class="ops-track" id="opsTrack"></div>
+      </div>
+      <article class="panel ops-index-panel reveal">
+        <div class="ops-index-head">
+          <p class="panel-tag mono">// 关联仓库 INDEX</p>
+          <a class="ops-all mono" href="https://github.com/ponm3ay?tab=repositories" target="_blank" rel="noopener">查看全部 8 REPOS ↗</a>
+        </div>
+        <ul class="ops-index mono" id="opsIndex"></ul>
+        <p class="ops-index-note mono">* DSH 生态附属仓库，随 dsh-plugins 一同维护与发版。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== 03 日志 ===== -->
+  <section class="sec" id="log">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-index mono">03 / LOG</p>
+        <h2 class="sec-title"><span class="sec-cn">行动日志</span><span class="sec-en mono">TRACE LOG</span></h2>
+        <span class="sec-num mono" aria-hidden="true">03</span>
+      </header>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- ===== 04 建立连接 ===== -->
+  <section class="sec sec-connect" id="connect">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-index mono">04 / CONTACT</p>
+        <h2 class="sec-title"><span class="sec-cn">建立连接</span><span class="sec-en mono">CONTACT NODE</span></h2>
+        <span class="sec-num mono" aria-hidden="true">04</span>
+      </header>
+      <div class="connect-head reveal">
+        <p class="connect-kicker mono">CONTACT NODE / READY TO DISPATCH</p>
+        <p class="connect-title">建立连接，启动下一项任务。</p>
+        <p class="connect-sub">有 agent 插件、自动化脚本或工具类项目想合作？通过下方频道发起通讯。</p>
+      </div>
+      <div class="connect-grid" id="connectGrid">
+        <a class="connect-card panel-corners reveal" href="mailto:sevenmaples@163.com" id="channelMail">
+          <span class="cc-type mono">MAIL · 邮件</span>
+          <span class="cc-value" data-c="connect.mail">sevenmaples@163.com</span>
+          <span class="cc-arrow mono" aria-hidden="true">→</span>
+          <button class="cc-copy mono" type="button" data-copy="sevenmaples@163.com" aria-label="复制邮箱地址">COPY</button>
+        </a>
+        <a class="connect-card panel-corners reveal" href="https://github.com/ponm3ay" target="_blank" rel="noopener" id="channelGit">
+          <span class="cc-type mono">GITHUB · 代码库</span>
+          <span class="cc-value" data-c="connect.github">github.com/ponm3ay</span>
+          <span class="cc-arrow mono" aria-hidden="true">→</span>
+        </a>
+        <div class="connect-card connect-card-empty reveal">
+          <span class="cc-type mono">CHANNEL · 更多频道</span>
+          <span class="cc-value cc-todo">[待编辑 · 在管理后台补充 B站 / 博客 / 其他链接]</span>
+        </div>
+      </div>
+      <p class="connect-note mono reveal">RESPONSE TIME · 通常 24-48H · [待编辑：可写上你的响应习惯]</p>
+    </div>
+  </section>
+</main>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <svg class="footer-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 23 12 12 23 1 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 6.5 17.5 12 12 17.5 6.5 12Z" fill="currentColor"/></svg>
+      <div class="footer-text mono">
+        <span data-c="footer.text">© 2026 PONM3AY ARCHIVE</span>
+        <span class="footer-note" data-c="footer.note">ORIGINAL INTERFACE / PUBLIC ARCHIVE NODE</span>
+      </div>
+    </div>
+    <div class="footer-right mono">
+      <button class="admin-entry" id="adminEntry" type="button" title="管理员控制台">◆ ADMIN</button>
+      <a class="footer-top" href="#top">BACK TO TOP ↑</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== 管理后台 MODAL ===== -->
+<div class="admin-modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminTitle" hidden>
+  <div class="admin-backdrop" data-admin-close></div>
+  <div class="admin-box panel-corners">
+    <!-- 令牌验证步骤 -->
+    <div class="admin-step" id="adminStepToken">
+      <div class="admin-head">
+        <h3 class="admin-title mono" id="adminTitle">ADMIN CONSOLE // 认证</h3>
+        <button class="admin-x" type="button" data-admin-close aria-label="关闭">✕</button>
+      </div>
+      <p class="admin-hint">输入管理员令牌以解锁本页内容编辑。令牌只保存在站长手里；本站仅校验其 SHA-256 摘要。</p>
+      <form id="tokenForm">
+        <input class="admin-token-input mono" id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="P3A-XXXX-XXXX-XXXX-XXXX" aria-label="管理员令牌">
+        <p class="admin-err mono" id="tokenErr" hidden>ACCESS DENIED · 令牌校验失败</p>
+        <button class="btn btn-solid admin-go" type="submit">验证并解锁<span class="btn-en mono">AUTH</span></button>
+      </form>
+    </div>
+    <!-- 编辑步骤 -->
+    <div class="admin-step" id="adminStepEdit" hidden>
+      <div class="admin-head">
+        <h3 class="admin-title mono" id="adminTitleEdit">ADMIN CONSOLE // 内容编辑</h3>
+        <button class="admin-x" type="button" data-admin-close aria-label="关闭">✕</button>
+      </div>
+      <p class="admin-hint admin-hint-live" id="adminLiveHint" hidden>● 本地编辑已启用：改动已保存到本浏览器（localStorage），仅本机可见。</p>
+      <p class="admin-hint">保存后仅对本浏览器生效；点击「导出 content.json」并提交到仓库，改动才会对全网生效。</p>
+      <div class="admin-body" id="adminBody"></div>
+      <div class="admin-actions mono">
+        <button class="btn btn-solid" id="adminSave" type="button">保存到本浏览器<span class="btn-en mono">SAVE</span></button>
+        <button class="btn btn-ghost" id="adminExport" type="button">导出 content.json<span class="btn-en mono">EXPORT</span></button>
+        <button class="btn btn-ghost btn-danger" id="adminReset" type="button">恢复默认</button>
+        <button class="admin-logout mono" id="adminLogout" type="button">退出登录</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast mono" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/content.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>
