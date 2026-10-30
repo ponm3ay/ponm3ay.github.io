@@ -79,6 +79,7 @@
     renderTicker();
     renderAvatar();
     renderMeta();
+    scanTodo();
     document.title = C.meta && C.meta.siteTitle ? C.meta.siteTitle : document.title;
   }
 
@@ -198,18 +199,36 @@
   }
 
   function renderAvatar() {
-    var img = document.getElementById('avatarImg');
+    var img = document.getElementById('portraitImg');
     if (!img) return;
+    var data = getPath(C, 'identity.avatarData');
     var url = getPath(C, 'identity.avatarUrl');
-    if (url) {
-      if (img.getAttribute('src') !== url) img.setAttribute('src', url);
-      img.onerror = function () { img.onerror = null; img.setAttribute('src', 'assets/img/avatar.svg'); };
-    }
+    var src = (typeof data === 'string' && data.indexOf('data:image') === 0) ? data
+            : (typeof url === 'string' && url ? url : 'assets/img/avatar.svg');
+    if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+    img.onerror = function () { img.onerror = null; img.setAttribute('src', 'assets/img/avatar.svg'); };
   }
 
   function renderMeta() {
     var t = document.querySelector('title');
     if (t && C.meta && C.meta.siteTitle) t.textContent = C.meta.siteTitle;
+  }
+
+  /* ---------- 占位可见性：访客隐藏 [待编辑]，管理员会话可见 ---------- */
+  function scanTodo() {
+    document.querySelectorAll('.is-todo').forEach(function (el) { el.classList.remove('is-todo'); });
+    document.querySelectorAll('[data-c]').forEach(function (el) {
+      if (el.textContent.indexOf('[待编辑') !== -1) el.classList.add('is-todo');
+    });
+    document.querySelectorAll('.status-grid dd.is-todo').forEach(function (dd) {
+      dd.parentElement.classList.add('is-todo');
+    });
+    document.querySelectorAll('.log-item').forEach(function (li) {
+      if (li.textContent.indexOf('[待编辑') !== -1) li.classList.add('is-todo');
+    });
+    document.querySelectorAll('.connect-card').forEach(function (card) {
+      if (card.querySelector('.cc-todo')) card.classList.add('is-todo');
+    });
   }
 
   /* ---------- Toast ---------- */

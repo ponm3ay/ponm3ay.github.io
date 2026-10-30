@@ -128,6 +128,13 @@
     h += fInput('加入时间 JOIN', 'identity.joinDate', getPath(draft, 'identity.joinDate'));
     h += fInput('头像 URL（留空用默认）', 'identity.avatarUrl', getPath(draft, 'identity.avatarUrl') || '');
     h += '</div>';
+    var curAvatar = getPath(draft, 'identity.avatarData');
+    h += '<div class="f-group"><label class="f-label">本地头像 UPLOAD（压缩至 640px，随导出写入 content.json）</label>' +
+      '<div class="f-avatar-row">' +
+      '<img class="f-avatar-prev" id="fAvatarPrev" src="' + (curAvatar || 'assets/img/avatar.svg') + '" alt="头像预览">' +
+      '<input type="file" id="fAvatarFile" accept="image/*" class="f-file">' +
+      '<button type="button" class="f-add" id="fAvatarRemove">✕ 移除自定义头像</button>' +
+      '</div></div>';
     h += fTextarea('宣言 MISSION', 'identity.mission', getPath(draft, 'identity.mission'), 2);
     h += fTextarea('情报摘要 BIO', 'identity.bio', getPath(draft, 'identity.bio'), 4);
     h += '</section>';
@@ -253,6 +260,13 @@
     });
 
     body.addEventListener('click', function (e) {
+      if (e.target.closest('#fAvatarRemove')) {
+        delete draft.identity.avatarData;
+        var prev = document.getElementById('fAvatarPrev');
+        if (prev) prev.setAttribute('src', 'assets/img/avatar.svg');
+        if (window.P3Toast) window.P3Toast('已移除自定义头像');
+        return;
+      }
       var add = e.target.closest('[data-add]');
       if (add) {
         var key = add.getAttribute('data-add');
@@ -275,7 +289,96 @@
         else if (window.P3Toast) window.P3Toast('至少保留一项');
       }
     });
+
+    body.addEventListener('change', function (e) {
+      if (e.target && e.target.id === 'fAvatarFile') {
+        var f = e.target.files && e.target.files[0];
+        if (!f) return;
+        compressImage(f, function (dataURL) {
+          draft.identity.avatarData = dataURL;
+          var prev = document.getElementById('fAvatarPrev');
+          if (prev) prev.setAttribute('src', dataURL);
+          if (window.P3Toast) window.P3Toast('头像已载入表单 · 记得点「保存到本浏览器」或导出');
+        });
+      }
+    });
   }
+
+  /* ---------- 管理态同步：body.p3-admin 控制占位/管理控件可见性 ---------- */
+  function syncAdminBody() {
+    document.body.classList.toggle('p3-admin', sessionStorage.getItem(SS_KEY) === '1');
+  }
+
+  /* ---------- 头像上传（画布压缩 → dataURL） ---------- */
+  function compressImage(file, cb) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var MAX = 640;
+        var w = img.naturalWidth, h = img.naturalHeight;
+        var s = Math.min(1, MAX / Math.max(w, h));
+        var cv = document.createElement('canvas');
+        cv.width = Math.round(w * s); cv.height = Math.round(h * s);
+        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+        cb(cv.toDataURL('image/jpeg', 0.86));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // 肖像面板直传：需管理员会话；保存到本浏览器
+  function initPortraitUpload() {
+    var btn = document.getElementById('portraitUpload');
+    var file = document.getElementById('portraitFile');
+    var hint = document.getElementById('portraitHint');
+    if (!btn || !file) return;
+    var syncUI = function () {
+      var unlocked = sessionStorage.getItem(SS_KEY) === '1';
+      btn.hidden = !unlocked;
+      if (hint) hint.textContent = unlocked
+        ? '* 上传后自动保存到本浏览器；「导出 content.json」并提交仓库后全网生效'
+        : '* 解锁 ◆ ADMIN 后可从本地上传头像（自动压缩至 640px，仅本机生效）';
+    };
+    btn.addEventListener('click', function () { file.click(); });
+    file.addEventListener('change', function () {
+      if (!file.files || !file.files[0]) return;
+      compressImage(file.files[0], function (dataURL) {
+        file.value = '';
+        applyLocalPatch({ identity: { avatarData: dataURL } });
+        if (window.P3Toast) window.P3Toast('头像已更新 · 保存到本浏览器');
+      });
+    });
+    window.addEventListener('p3-admin-state', syncUI);
+    syncUI();
+  }
+
+  // 对外：管理员补丁（合并 → 持久化 → 重渲染）
+  function applyLocalPatch(patch) {
+    var cur = window.P3App.content || {};
+    var merged = deepMergeLocal(cur, patch);
+    try { localStorage.setItem(LS_KEY, JSON.stringify(merged)); } catch (e) {
+      if (window.P3Toast) window.P3Toast('保存失败：存储空间不足（图像过大？）');
+      return;
+    }
+    window.P3App.content = merged;
+    window.P3App.render();
+    liveHint.hidden = false;
+  }
+  function deepMergeLocal(base, over) {
+    if (!over || typeof over !== 'object') return base;
+    var out = Array.isArray(base) ? base.slice() : Object.assign({}, base);
+    for (var k in over) {
+      if (!Object.prototype.hasOwnProperty.call(over, k)) continue;
+      var b = base ? base[k] : undefined, v = over[k];
+      if (v === null) { delete out[k]; continue; }          // null = 删除该键
+      if (v && typeof v === 'object' && !Array.isArray(v) && b && typeof b === 'object' && !Array.isArray(b)) out[k] = deepMergeLocal(b, v);
+      else out[k] = v;
+    }
+    return out;
+  }
+  window.P3Admin = { applyLocalPatch: applyLocalPatch };
 
   /* ---------- 保存 / 导出 / 重置 ---------- */
   function hasLocal() { try { return !!localStorage.getItem(LS_KEY); } catch (e) { return false; } }
@@ -283,8 +386,7 @@
   function save() {
     try {
       localStorage.setItem(LS_KEY, JSON.stringify(draft));
-      var merged = window.P3App.content;
-      window.P3App.content = draft;
+      window.P3App.content = clone(draft);
       window.P3App.render();
       liveHint.hidden = false;
       if (window.P3Toast) window.P3Toast('已保存到本浏览器 · 仅本机可见');
@@ -333,6 +435,8 @@
     stepEdit.hidden = true;
     var inp = document.getElementById('tokenInput');
     setTimeout(function () { inp.focus(); }, 60);
+    syncAdminBody();
+    window.dispatchEvent(new Event('p3-admin-state'));
   }
   function showEdit() {
     stepToken.hidden = true;
@@ -340,6 +444,8 @@
     draft = clone(window.P3App.content);
     renderForm();
     liveHint.hidden = !hasLocal();
+    syncAdminBody();
+    window.dispatchEvent(new Event('p3-admin-state'));
   }
   function checkToken(e) {
     e.preventDefault();
@@ -379,12 +485,15 @@
     });
     document.getElementById('tokenForm').addEventListener('submit', checkToken);
     bindInputs();
+    initPortraitUpload();
+    syncAdminBody();
     document.getElementById('adminSave').addEventListener('click', save);
     document.getElementById('adminExport').addEventListener('click', exportJson);
     document.getElementById('adminReset').addEventListener('click', reset);
     document.getElementById('adminLogout').addEventListener('click', function () {
       sessionStorage.removeItem(SS_KEY);
       showToken();
+      syncAdminBody();
       if (window.P3Toast) window.P3Toast('已退出管理员会话');
     });
   }

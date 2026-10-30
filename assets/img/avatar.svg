@@ -1,13 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
   <defs>
-    <pattern id="hz" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-      <rect width="10" height="10" fill="#0e1014"/>
-      <rect width="5" height="10" fill="#15171d"/>
+    <linearGradient id="ag" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#53ff18"/>
+      <stop offset="1" stop-color="#1fb900"/>
+    </linearGradient>
+    <pattern id="ahz" width="12" height="12" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#f3f5f2"/>
+      <rect width="6" height="12" fill="#e7ebe4"/>
     </pattern>
   </defs>
-  <rect width="120" height="120" fill="url(#hz)"/>
-  <path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#f0c12f" stroke-width="2"/>
-  <path d="M60 32 88 60 60 88 32 60Z" fill="rgba(240,193,47,.12)" stroke="rgba(240,193,47,.5)" stroke-width="1"/>
-  <text x="60" y="69" text-anchor="middle" font-family="'Chakra Petch',Consolas,monospace" font-size="24" font-weight="700" fill="#e8e6e1" letter-spacing="2">P3</text>
-  <text x="60" y="112" text-anchor="middle" font-family="Consolas,monospace" font-size="6" fill="#5d5c56" letter-spacing="3">OPERATOR</text>
+  <!-- 干员默认头像：六边形容器 + 信号节点（与旧菱形完全不同） -->
+  <rect width="120" height="120" fill="url(#ahz)"/>
+  <path d="M60 10 103.8 35v50L60 110 16.2 85V35Z" fill="#fbfcfa" stroke="#111412" stroke-width="2.5"/>
+  <path d="M60 22 93.5 41v38L60 98 26.5 79V41Z" fill="none" stroke="#1fb900" stroke-width="1.4"/>
+  <circle cx="60" cy="60" r="7" fill="url(#ag)" stroke="#111412" stroke-width="1.6"/>
+  <g stroke="#111412" stroke-width="1.4" opacity=".8">
+    <path d="M60 40v-9M60 89v-9M40 60h-9M89 60h-9" stroke-linecap="square"/>
+  </g>
+  <circle cx="60" cy="31" r="2.6" fill="#111412"/>
+  <circle cx="60" cy="89" r="2.6" fill="#111412"/>
+  <circle cx="31" cy="60" r="2.6" fill="#111412"/>
+  <circle cx="89" cy="60" r="2.6" fill="#111412"/>
+  <text x="60" y="107" text-anchor="middle" font-family="Consolas,monospace" font-size="7" fill="#69706d" letter-spacing="3">SIGNAL</text>
 </svg>

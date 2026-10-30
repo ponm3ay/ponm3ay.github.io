@@ -131,6 +131,49 @@ QA 环境：本机 Edge 156 无头（127.0.0.1:9222 常驻）+ node 静态服务
 **v4 复测**: **P0=0 P1=0 P2=0**（v1: 12/29/5）。
 **回归**: 交互 10/10 ✓；特写复核 nav/connect/footer 美感未破坏、可读性更好；误提交的 .mimosa 钩子状态已从仓库移除。
 
+---
+
+# 第二期迭代（用户追加需求：配色/图标/头像板块/性能/OG）
+
+## Round 29（换肤 + 图标 + 肖像板块）
+**改动**:
+1. 全站换肤为 arknights.mer3y.xyz 浅色工业风：bg #f3f5f2 / ink #111412 / 荧光绿 #53ff18+#1fb900 / 橙 #ff6a00，毛玻璃状态卡，暗→浅全量令牌替换（25+ 处硬编码色定点清除）。
+2. favicon 重做：六边形终端节点 + 荧光绿数据条 + 角标（与旧菱形完全不同）。
+3. 默认头像重做：六边形容器 + 信号节点 + 四向刻度。
+4. 档案区新增**肖像独立板块**（六边形框 + 扫描线 + CODENAME/CLEARANCE 元数据），hero 移除几何头像卡。
+**挑刺**: hero 右上斜纹块发闷；sec-num 描边过淡。
+**修复**: 斜纹改中性 ink 3.8%；描边 .18→.28。
+
+## Round 30（性能 + OG + 盲审回归）
+**改动**:
+1. **bun 构建管线** `_qa/build.js`（bun build --minify，node 回退）：main.min.css 34→30.1K、app.min.js 16.6→10.7K、admin.min.js 22.2→14.4K、关键 CSS 6.1K 内联 + 主 CSS media=print 异步加载（幂等改写 index.html，boot 序列充当 FOUC 屏蔽）。
+2. **OG 分享卡**（1200×630 品牌化 PNG 68KB）+ og:image/twitter:card meta + theme-color 换浅色。
+3. 性能基线（本地，禁缓存）：**FCP 124ms / LCP 1008ms / 传输 96.2KB / 10 请求**。
+**挑刺**: 盲审回升至 2/18/2 —— ① mer3y 的 #69706d 在浅底 4.41:1；② 肖像上传钮/面板新板块未被审计器覆盖；③ st-cyan 徽章青色系与新单强调色冲突。
+**修复**: --faint → #656b67（4.6:1）；--cyan → #0c7c00 绿系；审计器 v3 规则（肖像容器覆盖控件、avatar-panel 内边距、aria-hidden/SVG 排除）。复测 **0/0/0**。
+
+## Round 31（头像上传 E2E）
+**新增**: `_qa/avatar-e2e.js` 六步全流程：未解锁隐藏上传钮 → 解锁显示 → 面板直传（canvas 压缩 640px → dataURL 14KB → localStorage）→ 刷新持久 → 管理台表单上传/预览/导出含头像（blob 21KB）→ 移除恢复默认。**6/6 PASS**，零 JS 错误。
+**修复**: 测试脚本自身缺令牌输入步骤（假阴性）；admin.js save() 死变量清理；change 监听归位 bindInputs。
+
+## Round 32-33（零上下文子代理一审：FAIL）
+**平台插曲**: 用户要求 0 上下文子代理检验；此前 4 次派发被平台拦截，本轮起恢复成功，共完成 3 轮独立评审。
+**一审（全新子代理，六维 + P0/P1/P2 清单）**: FAIL。采纳：占位/上传控件外露访客视图（P1）、轮播渐隐不足、移动端标题孤字、INDEX 断词、模块单列过长、teal 破坏单强调色。不采纳：followers=00（真实数据优先）。
+**修复**: **访客/管理员双视图** —— body.p3-admin 会话类 + scanTodo() 内容驱动扫描（[待编辑] 文案 → .is-todo，访客 display:none，管理会话可见；日志 DRAFT 条目、CHANNEL 占位卡、SECTOR 格、RESPONSE TIME、portrait-hint、attrs-sub 全覆盖）+ .admin-only 类；mask 渐隐 56→96px；sec-title/connect-title text-wrap:balance；ops-index 网格化；模块移动端双列；teal 全量转绿。
+**复检**: 访客视图 5 项占位全隐藏 ✓ / 管理视图全可见 ✓；交互 10/10；盲审 0/0/0；7 档宽度无溢出。
+
+## Round 34-35（零上下文子代理二审：FAIL → 修复）
+**二审**: 逐项核对发现 4 项复发/遗漏 —— ① RESPONSE TIME 占位未纳入扫描（静态无 data-c）；② 上传黑条外露（**根因**：.portrait-upload{display:flex} 覆盖 [hidden] UA 样式，与 admin-step 同款坑）；③ st-cyan 徽章仍青（**根因**：rgba(25,209,255,.45) 边框硬编码漏替换）；④ INDEX 断词碎片（break-all）。
+**修复**: .portrait-upload[hidden]{display:none!important}；rgba(25,209,255→12,124,0)；connect-note 加 data-c 入扫描；keep-all+anywhere。复测 GUEST 6 项全达标。回归 10/10、0/0/0。
+
+## Round 36-37（零上下文子代理三审：FAIL → 修复 → 全绿）
+**三审**: 三项特别检查全过（无占位残留/无管理控件泄露/单强调色），P0=0；唯 P1"移动端无导航"+P2 灰块/INDEX 空槽/轮播硬切/断词。
+**根因链**: 关联仓库网格 minmax(430px,1fr) 轨道 > 390px 视口 → 文档撑到 477px → body 布局整体推宽 → fixed 导航容器跟随越界 → 汉堡按钮 x=417 视口外；status-grid 灰块 = gap 灰底在 SECTOR 格隐藏后露出。
+**修复**: minmax(min(430px,100%),1fr)（文档 docW 390=视口 ✓）；status-grid 改边线式（空槽干净留白）；渐隐带 140px 双段；keep-all 防断词。
+**终态回归**: 交互 10/10 ✓ 盲审 0/0/0 ✓ 宽度扫描无溢出 ✓ 头像 E2E 6/6 ✓ 移动端实拍导航/汉堡/跳转正常 ✓。
+**教训入库**: CSS 改动后必须重跑 widths.js（grid 轨道最小值溢出 audit.js 检测不到）；新增覆盖 [hidden] 的类样式时必须同时写 [hidden]{display:none!important}。
+
+
 
 
 

@@ -5,15 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PONM3AY // PERSONAL ARCHIVE</title>
 <meta name="description" content="PONM3AY 的个人档案站 —— AI 工具 / 桌面自动化 / CV 训练流水线。OPERATOR FILE // No.001">
-<meta name="theme-color" content="#0a0b0e">
+<meta name="theme-color" content="#f3f5f2">
 <meta property="og:title" content="PONM3AY // PERSONAL ARCHIVE">
 <meta property="og:description" content="把重复劳动拆成模块，交给脚本与 agent。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://ponm3ay.github.io/">
+<meta property="og:image" content="https://ponm3ay.github.io/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PONM3AY // PERSONAL ARCHIVE">
+<meta name="twitter:image" content="https://ponm3ay.github.io/assets/img/og-card.png">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preload" href="assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/chakra-petch-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="assets/css/main.css">
+<style id="p3-critical">:root{--bg0:#edf0ea;--bg1:#f3f5f2;--bg2:#fbfcfa;--bg3:#e7ebe4;--panel:#fbfcfa;--line:#11141229;--line-strong:#11141266;--text:#111412;--dim:#4c524e;--faint:#656b67;--ak:#53ff18;--ak-deep:#0e7a00;--ak-soft:#53ff1829;--cyan:#0c7c00;--cyan-soft:#007c8f1a;--red:#b34700;--red-soft:#ff6a001f;--ok:#0c7c00;--f-disp:"Chakra Petch","Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;--f-body:"Chakra Petch","Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;--f-mono:"Consolas","Chakra Petch","Microsoft YaHei","Courier New",monospace;--ease-out:cubic-bezier(.16,1,.3,1);--clip-btn:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px)100%,0 100%,0 12px);--clip-btn-sm:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px)100%,0 100%,0 8px)}*,*:before,*:after{box-sizing:border-box}html,html:focus-within{scroll-behavior:smooth}body{background:var(--bg0);color:var(--text);font-family:var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;margin:0;font-size:16px;line-height:1.7}::selection{background:var(--ak);color:#111412}img{display:block;max-width:100%}a{color:inherit;text-decoration:none}button{cursor:pointer;font-family:inherit}h1,h2,h3,h4,p,dl,dd,ul{margin:0;padding:0}ul{list-style:none}:focus-visible{outline:2px solid var(--ak);outline-offset:3px}::-webkit-scrollbar{width:10px;height:8px}::-webkit-scrollbar-track{background:var(--bg0)}::-webkit-scrollbar-thumb{border:2px solid var(--bg0);background:#c2c8bf}::-webkit-scrollbar-thumb:hover{background:var(--ak-deep)}.mono{font-family:var(--f-mono);letter-spacing:.05em}.container{width:min(1240px,100% - 48px);margin-inline-start:auto;margin-inline-end:auto}@media (max-width:640px){.container{width:calc(100% - 36px)}}.noscript-note{background:var(--red-soft);border-bottom:1px solid var(--red);font-family:var(--f-mono);padding:12px 20px;font-size:13px}#boot{position:fixed;z-index:200;background:var(--bg0);display:flex;animation:.5s 5s forwards bootAutoHide;justify-content:center;align-items: center;inset:0}@keyframes bootAutoHide{to{opacity:0;visibility:hidden}}#boot.is-done{opacity:0;visibility:hidden;transition:opacity .45s,visibility .45s}.boot-inner{width:min(560px,86vw)}.boot-lines{color:var(--dim);min-height:150px;font-size:12.5px;line-height:2}.boot-lines .bl{opacity:0;animation:.12s forwards blIn}.boot-lines .bl b{color:var(--ak-deep);font-weight:600}.boot-lines .bl .ok{color:var(--ok)}@keyframes blIn{to{opacity:1}}.boot-bar{overflow:hidden;background:#dfe5df;height:3px;margin:18px 0 10px}.boot-bar i{display:block;background:linear-gradient(90deg,var(--ak-deep),var(--ak));width:0;height:100%;transition:width .18s}.boot-status{display:flex;color:var(--faint);letter-spacing:.15em;justify-content:space-between;font-size:11px}.boot-skip{border:1px solid var(--line-strong);color:var(--dim);letter-spacing:.2em;clip-path:var(--clip-btn-sm);background:0 0;margin-top:26px;padding:11px 20px;transition:all .2s;font-size:11px}.boot-skip:hover{border-color:var(--ak-deep);color:var(--ak-deep)}.scroll-progress{position:fixed;z-index:120;background:0 0;height:2px;top:0;left:0;right:0}.scroll-progress i{display:block;background:var(--ak);width:0;height:100%;box-shadow:0 0 8px #1fb90080}.btn{display:inline-flex;font-family:var(--f-disp);clip-path:var(--clip-btn);transition:transform .2s var(--ease-out),background .2s,color .2s,box-shadow .2s;position:relative;border:none;align-items: center;gap:12px;padding:14px 26px;font-size:15px;font-weight:600}.btn .btn-en{letter-spacing:.22em;opacity:.72;font-size:10px;font-weight:500}.btn-solid{background:var(--ak);color:#111412}.btn-solid:hover{transform:translateY(-2px);box-shadow:0 6px 22px #1fb9004d}.btn-solid:active{transform:translateY(0)}.btn-ghost{color:var(--text);box-shadow:inset 0 0 0 1px var(--line-strong);background:0 0}.btn-ghost:hover{color:var(--ak-deep);box-shadow:inset 0 0 0 1px var(--ak);transform:translateY(-2px)}.btn-danger{color:var(--red)}.btn-danger:hover{box-shadow:inset 0 0 0 1px var(--red);color:var(--red);transform:none}.panel{background:var(--panel);border:1px solid var(--line);position:relative;padding:28px}.panel-corners:before,.panel-corners:after{content:"";position:absolute;border:1.5px solid var(--ak);pointer-events:none;width:16px;height:16px;transition:all .3s}.panel-corners:before{border-bottom:none;border-right:none;top:-1px;left:-1px}.panel-corners:after{border-top:none;border-left:none;bottom:-1px;right:-1px}.panel-corners:hover:before,.panel-corners:hover:after{width:24px;height:24px}.panel-tag{color:var(--faint);letter-spacing:.18em;margin-bottom:14px;font-size:11px}.panel-tag .attrs-note{display:inline-block;margin-left:10px}.chip{display:inline-block;color:var(--dim);border:1px solid var(--line);background:var(--bg1);letter-spacing:.08em;margin:0 8px 8px 0;padding:4px 12px;font-size:11.5px}.reveal{opacity:0;transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);transform:translateY(26px)}.reveal.in{opacity:1;transform:none}body:not(.p3-admin) .is-todo,body:not(.p3-admin) .admin-only{display:none!important}.nav{position:fixed;z-index:110;backdrop-filter:blur(12px);background:#f3f5f2db;border-bottom:1px solid #0000;transition:border-color .3s;top:0;left:0;right:0}.nav.is-scrolled{border-bottom-color:var(--line)}.nav-inner{display:flex;align-items: center;gap:28px;height:60px}.nav-logo{display:flex;color:var(--text);align-self:stretch;align-items: center;gap:10px;padding:0 4px}.nav-logo-mark{color:var(--ak-deep);width:22px;height:22px}.nav-logo-text{letter-spacing:.12em;font-size:15px;font-weight:700}.nav-logo-sub{color:var(--faint);letter-spacing:.18em;margin-left:6px;font-size:10px}.nav-links{display:flex;gap:4px;margin-left:8px}.nav-link{position:relative;display:flex;color:var(--dim);letter-spacing:.1em;align-items:baseline;gap:6px;padding:8px 14px;transition:color .2s;font-size:12.5px}.nav-link i{color:var(--faint);transition:color .2s;font-size:9.5px;font-style:normal}.nav-link:hover{color:var(--text)}.nav-link.is-active,.nav-link.is-active i{color:var(--ak-deep)}.nav-link:after{content:"";position:absolute;background:var(--ak);transform-origin:left;transition:transform .28s var(--ease-out);height:1.5px;bottom:2px;left:14px;right:14px;transform:scaleX(0)}.nav-link.is-active:after{transform:scaleX(1)}
+</style>
+<link rel="stylesheet" href="assets/css/main.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="assets/css/main.min.css"></noscript>
 </head>
 <body>
 <noscript><div class="noscript-note">本站需要启用 JavaScript 才能加载档案数据。STATIC FALLBACK: PONM3AY — github.com/ponm3ay — sevenmaples@163.com</div></noscript>
@@ -74,18 +84,18 @@
       </div>
       <aside class="hero-aside reveal" aria-label="状态面板">
         <div class="status-card panel-corners">
-          <div class="status-head mono"><span>CORE // RHOMBUS</span><span class="sync mono">SYNC <b id="syncVal">99.7</b>%</span></div>
+          <div class="status-head mono"><span>CORE // SIGNAL</span><span class="sync mono">SYNC <b id="syncVal">99.7</b>%</span></div>
           <div class="core-visual" aria-hidden="true">
             <svg viewBox="0 0 200 200">
               <g class="core-spin">
-                <path d="M100 30 170 100 100 170 30 100Z" fill="none" stroke="rgba(240,193,47,.85)" stroke-width="1.5"/>
-                <path d="M100 55 145 100 100 145 55 100Z" fill="rgba(240,193,47,.06)" stroke="rgba(240,193,47,.45)" stroke-width="1"/>
+                <path d="M100 30 170 100 100 170 30 100Z" fill="none" stroke="rgba(31,185,0,.85)" stroke-width="1.5"/>
+                <path d="M100 55 145 100 100 145 55 100Z" fill="rgba(83,255,24,.10)" stroke="rgba(31,185,0,.45)" stroke-width="1"/>
               </g>
               <g class="core-spin-rev">
-                <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(232,230,225,.14)" stroke-width="1" stroke-dasharray="4 10"/>
-                <path d="M100 78 122 100 100 122 78 100Z" fill="rgba(240,193,47,.9)"/>
+                <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(17,20,18,.20)" stroke-width="1" stroke-dasharray="4 10"/>
+                <path d="M100 78 122 100 100 122 78 100Z" fill="rgba(31,185,0,.9)"/>
               </g>
-              <g class="mono core-label" fill="rgba(232,230,225,.55)" font-size="7" font-family="monospace">
+              <g class="mono core-label" fill="rgba(17,20,18,.5)" font-size="7" font-family="monospace">
                 <text x="100" y="14" text-anchor="middle">000</text>
                 <text x="192" y="103" text-anchor="middle">090</text>
                 <text x="100" y="195" text-anchor="middle">180</text>
@@ -100,14 +110,6 @@
             <div><dt>UPDATED</dt><dd data-c="meta.updated">2026.10</dd></div>
             <div><dt>FOCUS</dt><dd data-c="identity.focus">AI × TOOLS × OPS</dd></div>
           </dl>
-        </div>
-        <div class="avatar-card panel-corners">
-          <img id="avatarImg" src="assets/img/avatar.svg" alt="干员头像 OPERATOR ICON" width="112" height="112">
-          <div class="avatar-meta mono">
-            <span class="avatar-label">OPERATOR ICON</span>
-            <span class="avatar-id" data-c="identity.codename">PONM3AY</span>
-          </div>
-          <span class="avatar-scan" aria-hidden="true"></span>
         </div>
       </aside>
     </div>
@@ -142,7 +144,22 @@
         <span class="sec-num mono" aria-hidden="true">01</span>
       </header>
       <div class="profile-grid">
-        <article class="panel bio-panel panel-corners reveal">
+        <aside class="avatar-panel panel-corners reveal" id="avatarPanel" aria-label="干员肖像">
+          <p class="panel-tag mono">// 干员肖像 PORTRAIT</p>
+          <div class="portrait-frame" id="portraitFrame">
+            <img id="portraitImg" src="assets/img/avatar.svg" alt="干员肖像 PORTRAIT">
+            <span class="portrait-scan" aria-hidden="true"></span>
+            <button class="portrait-upload mono" id="portraitUpload" type="button" hidden aria-label="上传本地头像">▲ 上传图像<span>UPLOAD IMAGE</span></button>
+          </div>
+          <dl class="portrait-meta mono">
+            <div><dt>CODENAME</dt><dd data-c="identity.codename">PONM3AY</dd></div>
+            <div><dt>CLEARANCE</dt><dd data-c="identity.clearance">PUBLIC</dd></div>
+          </dl>
+          <p class="portrait-hint mono admin-only" id="portraitHint">* 解锁 ◆ ADMIN 后可从本地上传头像（自动压缩至 640px，仅本机生效）</p>
+          <input type="file" id="portraitFile" accept="image/*" hidden>
+        </aside>
+        <div class="profile-main">
+          <article class="panel bio-panel panel-corners reveal">
           <p class="panel-tag mono">// 情报摘要 BRIEFING</p>
           <h3 class="bio-title">Codename <b data-c="identity.codename">PONM3AY</b></h3>
           <p class="bio-text" data-c="identity.bio">白天拆需求、写插件；晚上把日常动作自动化成脚本，然后 DeepSleep~zzz。专注 LLM agent 插件生态（DSH）、桌面自动化工具链与 CV 训练流水线 —— safeyolo、dsh-plugins、autoclaw-proxy 的维护者。</p>
@@ -154,9 +171,10 @@
         </article>
         <article class="panel attrs-panel panel-corners reveal">
           <p class="panel-tag mono">// 能力评估 ATTRIBUTES</p>
-          <p class="attrs-sub mono">自评示例 · 可在管理后台修改</p>
+          <p class="attrs-sub mono admin-only">自评示例 · 可在管理后台修改</p>
           <div class="attr" id="attrsList"></div>
         </article>
+        </div>
       </div>
       <article class="panel modules-panel reveal">
         <div class="modules-head">
@@ -237,7 +255,7 @@
           <span class="cc-value cc-todo">[待编辑 · 在管理后台补充 B站 / 博客 / 其他链接]</span>
         </div>
       </div>
-      <p class="connect-note mono reveal">RESPONSE TIME · 通常 24-48H · [待编辑：可写上你的响应习惯]</p>
+      <p class="connect-note mono reveal" data-c="connect.responseNote">RESPONSE TIME · 通常 24-48H · [待编辑：可写上你的响应习惯]</p>
     </div>
   </section>
 </main>
@@ -299,7 +317,7 @@
 <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/js/content.js"></script>
-<script src="assets/js/app.js"></script>
-<script src="assets/js/admin.js"></script>
+<script src="assets/js/app.min.js" defer></script>
+<script src="assets/js/admin.min.js" defer></script>
 </body>
 </html>
