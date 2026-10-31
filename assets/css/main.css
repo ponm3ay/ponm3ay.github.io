@@ -508,7 +508,7 @@ body:not(.p3-admin) .admin-only{display:none !important}
   pointer-events:none;
 }
 .veil-no{
-  font-family:var(--f-disp);font-weight:700;font-size:64px;line-height:1;
+  font-family:var(--f-disp);font-weight:700;font-size:56px;line-height:1;
   color:transparent;-webkit-text-stroke:1.5px rgba(31,185,0,.75);
   letter-spacing:.04em;user-select:none;
 }
@@ -653,6 +653,7 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .connect-card:hover .cc-copy,.connect-card:focus-within .cc-copy{opacity:1;transform:translateX(0)}
 @media (hover:none){.cc-copy{opacity:1;transform:none}}
 .cc-copy:hover{color:var(--ak-deep);border-color:var(--ak-deep);background:var(--ak-soft)}
+.connect-card:hover .cc-copy{border-color:rgba(31,185,0,.55);color:var(--ak-deep)}
 .connect-note{margin-top:22px;font-size:10.5px;color:var(--faint);letter-spacing:.22em;text-align:center}
 
 /* ============================================================
