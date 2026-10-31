@@ -153,14 +153,18 @@
     if (!track || !C.operations) return;
     track.innerHTML = C.operations.map(function (o, idx) {
       var link = o.link || '#';
-      return '<article class="op-card">' +
-        '<div class="op-top mono"><span class="op-no">' + esc(o.no || 'OP-' + String(idx + 1).padStart(2, '0')) + '</span>' +
+      var no = esc(o.no || 'OP-' + String(idx + 1).padStart(2, '0'));
+      return '<article class="op-card" tabindex="0" aria-label="' + no + ' ' + esc(o.title) + '">' +
+        '<div class="op-top mono"><span class="op-no">' + no + '</span>' +
         '<span class="op-status ' + statusClass(o.st) + '">' + esc(o.status || '') + '</span></div>' +
         '<h3 class="op-title"><a href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(o.title) + '</a></h3>' +
+        '<div class="op-body">' +
         '<p class="op-desc">' + esc(o.desc) + '</p>' +
         '<div class="op-tags mono">' + (o.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
         '<div class="op-meta mono"><span>' + esc(o.meta || '') + '</span>' +
         '<a href="' + esc(link) + '" target="_blank" rel="noopener">OPEN CASE ↗</a></div>' +
+        '</div>' +
+        '<div class="op-veil mono" aria-hidden="true"><span class="veil-no">' + no.replace(/^OP-/, '') + '</span><span class="veil-hint">▸▸ 悬停 / 聚焦展开 CASE FILE</span></div>' +
         '</article>';
     }).join('');
     var total = document.getElementById('opsTotal');
