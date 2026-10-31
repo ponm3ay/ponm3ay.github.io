@@ -179,6 +179,19 @@ QA 环境：本机 Edge 156 无头（127.0.0.1:9222 常驻）+ node 静态服务
 **E2E**: 假令牌走错误路径；真令牌（本机 gh 会话注入测试页，不落文件）真实提交 `18c7c4b content update via admin console` 到仓库全链路验证 ✓，零 JS 错误。
 **注意**: 令牌安全边界 = 把该仓库写权限交给这台设备；用户应自建细粒度令牌（不要复用宽权限 CLI 令牌）。
 
+## Round 41-42（第三期：终末地式卡片覆盖揭示交互）
+**需求**: "卡片不再直接展示而是做一层动效覆盖，类似 endfield.hypergryph.com"。
+**研究**: 抓取 endfield 官网 643KB HTML + 8 个 CSS 分包，提取到 arrowBlock 覆盖滑入（clip-path 扩展 + translateX(0)）、HollowText 空心描边字、斜纹母题三类手法。
+**实现**:
+1. 作战卡新增 `.op-veil` 覆盖揭示层：默认遮蔽正文（斜纹网格 + 大号空心编号 64px + "▸▸ 悬停 / 聚焦展开 CASE FILE"），标题/编号/状态章常显保证可扫读。
+2. hover/`:focus-within`（卡片 tabindex=0）触发：veil 右滑 103% + 内容错峰显影（描述 0.16s → 标签 0.26s → 元信息 0.34s）+ 顶部绿线延展全宽。
+3. **触屏 (hover:none) 降级**：内容常显 + veil 变 44px 底部编号条（CDP 强制 hover:none 实测通过）。
+4. **reduced-motion**：veil 直接隐藏，内容全显。
+5. **可访问性实测三连**：正文不被 visibility/display 隐藏（在无障碍树中）✓；Tab 聚焦触发揭示（veilTx=441=卡宽）✓；RM 直显 ✓；veil 整体 aria-hidden ✓。
+**子代理评审（零上下文）**: PASS —— 视觉语言一致性/遮蔽态可扫读性/触屏降级三项成立；采纳 4 项 P2：提示文案补"聚焦"、hover 背景不再降对比（bg3→panel）、hint 对比度升级、触屏 CTA 强化。P1 可访问性以实测证据闭环。
+**审计器适配**: op-veil 与被遮内容的 by-design 重叠加入豁免规则。回归：交互 10/10、盲审 0/0/0、宽度 0 溢出。线上 commit `d881ff5` 验证两态实拍 ✓。
+
+
 
 
 
