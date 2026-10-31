@@ -429,6 +429,7 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .modules-grid li{
   background:var(--bg1);padding:15px 18px;font-size:12.5px;color:var(--dim);
   letter-spacing:.1em;display:flex;align-items:center;gap:12px;transition:.25s;position:relative;
+  overflow:hidden;
 }
 .modules-grid li::before{content:"◆";color:var(--ak-deep);font-size:8px;transition:.25s}
 .modules-grid li::after{

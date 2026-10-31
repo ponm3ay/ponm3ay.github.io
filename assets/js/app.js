@@ -420,11 +420,7 @@
     idxEl.textContent = String(Math.min(Math.max(i, 1), cards.length)).padStart(2, '0');
     vp.classList.toggle('at-end', vp.scrollLeft + vp.clientWidth >= vp.scrollWidth - 12);
     var prog = document.getElementById('opsProgress');
-    if (prog) {
-      var max = vp.scrollWidth - vp.clientWidth;
-      var ratio = max > 0 ? Math.min(1, vp.scrollLeft / max) : 1;
-      prog.style.width = Math.max(8, ratio * 100) + '%';
-    }
+    if (prog) prog.style.width = (Math.min(Math.max(i, 1), cards.length) / cards.length * 100) + '%';
   }
 
   /* ---------- SYNC 数值抖动 ---------- */
@@ -441,9 +437,9 @@
     if (el.dataset.counted) return;
     el.dataset.counted = '1';
     var raw = el.textContent.trim();
-    var m = raw.match(/^(\d*)\.?(\d*)$/);
-    if (!m || (!m[1] && !m[2])) return; // 非纯数字（如 2022.10 也匹配）→ 继续尝试
-    if (raw.indexOf('.') !== -1 && !/^\d+\.\d+$/.test(raw)) return;
+    if (/^\d{4}\.\d{2}$/.test(raw)) return; // 日期型（2022.10）不做数值插值，避免无意义中间值
+    var m = raw.match(/^(\d*)(?:\.(\d*))?$/);
+    if (!m || (!m[1] && !m[2])) return;
     var hasDot = raw.indexOf('.') !== -1;
     var intLen = hasDot ? raw.split('.')[0].length : raw.length;
     var decLen = hasDot ? raw.split('.')[1].length : 0;
