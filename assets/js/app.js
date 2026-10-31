@@ -540,12 +540,15 @@
       if (busy) return;
       busy = true;
       core.classList.add('core-pulse');
+      core.classList.add('core-boom');          // 四层菱形由内向外波浪响应
+      triggerGlitch();                          // hero 名字联动故障闪
       var sync = document.getElementById('syncVal');
       var prev = sync ? sync.textContent : '';
       if (sync) sync.textContent = '100.0';
       toast('CORE PULSE · 核心脉冲已发送 · SYNC 100.0%');
       setTimeout(function () {
         core.classList.remove('core-pulse');
+        core.classList.remove('core-boom');
         if (sync) sync.textContent = prev;
         busy = false;
       }, 1400);
