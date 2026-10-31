@@ -82,6 +82,7 @@
     scanTodo();
     initCountUp();
     initTimelineGrown();
+    initLuxury();
     document.title = C.meta && C.meta.siteTitle ? C.meta.siteTitle : document.title;
   }
 
@@ -479,6 +480,48 @@
       });
     }, { threshold: 0.2 });
     io.observe(box);
+  }
+
+  /* ---------- Round49 豪华交互：3D tilt / CTA 磁吸 / hero 视差（仅精确指针） ---------- */
+  function initLuxury() {
+    if (RM) return;
+    if (!(window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches)) return;
+    // 3D tilt：作战卡 + 状态卡
+    document.querySelectorAll('.op-card,.status-card').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        var lift = card.classList.contains('op-card') ? 'translateY(-5px) ' : '';
+        card.style.transform = lift + 'perspective(950px) rotateX(' + (-py * 4.5).toFixed(2) + 'deg) rotateY(' + (px * 5.5).toFixed(2) + 'deg)';
+      });
+      card.addEventListener('pointerleave', function () { card.style.transform = ''; });
+    });
+    // CTA 磁吸
+    var cta = document.querySelector('.hero-cta');
+    if (cta) {
+      var btns = cta.querySelectorAll('.btn');
+      cta.addEventListener('pointermove', function (e) {
+        btns.forEach(function (btn) {
+          var r = btn.getBoundingClientRect();
+          var dx = e.clientX - (r.left + r.width / 2);
+          var dy = e.clientY - (r.top + r.height / 2);
+          var reach = Math.max(r.width, 120) / 2 + 70; // 按钮边缘外扩 70px 的磁吸半径
+          if (Math.hypot(dx, dy) < reach) btn.style.transform = 'translate(' + (dx * 0.12).toFixed(1) + 'px,' + (dy * 0.18).toFixed(1) + 'px)';
+          else btn.style.transform = '';
+        });
+      });
+      cta.addEventListener('pointerleave', function () {
+        btns.forEach(function (btn) { btn.style.transform = ''; });
+      });
+    }
+    // hero 背景滚动视差
+    var bg = document.querySelector('.hero-bg');
+    if (bg) {
+      window.addEventListener('scroll', function () {
+        bg.style.transform = 'translateY(' + (window.scrollY * 0.28).toFixed(1) + 'px)';
+      }, { passive: true });
+    }
   }
 
   /* ---------- 启动 ---------- */

@@ -116,6 +116,15 @@ ul{list-style:none}
 .btn-danger:hover{box-shadow:inset 0 0 0 1px var(--red);color:var(--red);transform:none}
 
 .panel{background:var(--panel);border:1px solid var(--line);padding:28px;position:relative}
+/* Round48: 全区块面板 hover 扫光+描绿（背景层动画，不占伪元素） */
+.bio-panel,.attrs-panel,.ops-index-panel,.modules-panel{
+  background-image:linear-gradient(115deg,transparent 42%,rgba(83,255,24,.07) 50%,transparent 58%);
+  background-size:230% 100%;background-position:130% 0;background-repeat:no-repeat;
+  transition:background-position .95s var(--ease-out),border-color .25s;
+}
+.bio-panel:hover,.attrs-panel:hover,.ops-index-panel:hover,.modules-panel:hover{
+  background-position:-70% 0;border-color:rgba(31,185,0,.45);
+}
 .panel-corners::before,.panel-corners::after{
   content:"";position:absolute;width:16px;height:16px;border:1.5px solid var(--ak);pointer-events:none;transition:.3s;
 }
@@ -313,7 +322,10 @@ body:not(.p3-admin) .admin-only{display:none !important}
    ============================================================ */
 .stats{border-bottom:1px solid var(--line);background:var(--bg1)}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
-.stat{padding:26px 10px;text-align:center;position:relative}
+.stat{padding:26px 10px;text-align:center;position:relative;transition:background .3s}
+.stat:hover{background:rgba(83,255,24,.06)}
+.stat:hover .stat-num{transform:translateY(-3px);text-shadow:0 0 18px rgba(83,255,24,.45)}
+.stat-num{display:inline-block;transition:transform .3s var(--ease-out),text-shadow .3s}
 .stat+.stat::before{content:"";position:absolute;left:0;top:22%;bottom:22%;width:1px;background:var(--line)}
 .stat-num{display:block;font-size:clamp(26px,3.2vw,40px);font-weight:700;color:var(--ak-deep);letter-spacing:.04em;line-height:1.15}
 .stat-label{font-size:10px;color:var(--faint);letter-spacing:.18em}
@@ -560,6 +572,10 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .ops-index li{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline;font-size:12px;color:var(--dim);border-bottom:1px dashed var(--line);counter-increment:idx}
 .ops-index li::before{content:"IDX-0" counter(idx);color:var(--faint);font-size:10px;letter-spacing:.16em}
 .ops-index li>a{padding:9px 0;word-break:keep-all;overflow-wrap:anywhere}
+/* Round48: INDEX 行 hover 编号滑块 */
+.ops-index li::before{transition:background .25s,color .25s}
+.ops-index li:hover::before{background:var(--ak);color:#111412}
+.ops-index li:hover{color:var(--text)}
 .ops-index a:hover{color:var(--ak-deep)}
 .ops-index .idx-lang{color:var(--faint);font-size:10px;letter-spacing:.14em;white-space:nowrap}
 @media (max-width:520px){
@@ -584,7 +600,11 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .log-item::before{
   content:"";position:absolute;left:-30px;top:7px;width:9px;height:9px;
   background:var(--bg0);border:1.5px solid var(--ak);transform:rotate(45deg);
+  transition:transform .3s var(--ease-out),box-shadow .3s;
 }
+.log-item:hover::before{transform:rotate(45deg) scale(1.55);box-shadow:0 0 12px rgba(83,255,24,.55)}
+.log-item:hover .log-title{color:var(--ak-deep)}
+.log-item:hover .log-date{color:var(--text)}
 .log-date{font-size:11.5px;color:var(--ak-deep);letter-spacing:.2em;margin-bottom:6px}
 .log-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px}
 .log-title{font-family:var(--f-disp);font-size:18px;font-weight:600;letter-spacing:.03em}
@@ -628,7 +648,10 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .cc-copy{
   position:absolute;right:24px;top:22px;background:var(--bg1);border:1px solid var(--line-strong);
   color:var(--dim);font-size:10px;letter-spacing:.2em;padding:10px 16px;transition:.2s;clip-path:var(--clip-btn-sm);
+  opacity:0;transform:translateX(10px);
 }
+.connect-card:hover .cc-copy,.connect-card:focus-within .cc-copy{opacity:1;transform:translateX(0)}
+@media (hover:none){.cc-copy{opacity:1;transform:none}}
 .cc-copy:hover{color:var(--ak-deep);border-color:var(--ak-deep);background:var(--ak-soft)}
 .connect-note{margin-top:22px;font-size:10.5px;color:var(--faint);letter-spacing:.22em;text-align:center}
 
