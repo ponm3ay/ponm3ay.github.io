@@ -582,6 +582,17 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .admin-body{padding:14px 24px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:18px}
 .admin-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:16px 24px 20px;border-top:1px solid var(--line)}
 .admin-actions .btn{padding:10px 18px;font-size:13px}
+/* GitHub 直发 */
+.pub-token{padding:12px 24px 0}
+.pub-token-title{font-family:var(--f-mono);font-size:10.5px;color:var(--ak-deep);letter-spacing:.18em;margin-bottom:8px}
+.pub-token-row{display:flex;gap:10px}
+.pub-token-row .f-input{flex:1}
+.pub-token-help{font-size:10.5px;color:var(--faint);line-height:1.9;margin-top:8px}
+.pub-token-help b{color:var(--text)}
+.pub-status{padding:10px 24px 0;font-size:11px;color:var(--dim);letter-spacing:.06em;line-height:1.9}
+.pub-status.ok{color:var(--ok)}
+.pub-status.err{color:var(--red)}
+.pub-status a{color:var(--ak-deep);border-bottom:1px dashed var(--ak-deep)}
 .admin-logout{margin-left:auto;background:none;border:none;color:var(--faint);font-size:10.5px;letter-spacing:.2em;transition:.2s}
 .admin-logout:hover{color:var(--red)}
 

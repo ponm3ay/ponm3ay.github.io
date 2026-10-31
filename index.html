@@ -301,10 +301,20 @@
         <button class="admin-x" type="button" data-admin-close aria-label="关闭">✕</button>
       </div>
       <p class="admin-hint admin-hint-live" id="adminLiveHint" hidden>● 本地编辑已启用：改动已保存到本浏览器（localStorage），仅本机可见。</p>
-      <p class="admin-hint">保存后仅对本浏览器生效；点击「导出 content.json」并提交到仓库，改动才会对全网生效。</p>
+      <p class="admin-hint">保存后仅对本浏览器生效；点击「发布到 GitHub」可直接提交到仓库并自动上线（首次需配置一次 GitHub 令牌，仅存本机）。</p>
       <div class="admin-body" id="adminBody"></div>
+      <div class="pub-token mono" id="pubToken" hidden>
+        <p class="pub-token-title">// GITHUB 令牌（首次配置）</p>
+        <div class="pub-token-row">
+          <input class="f-input" id="ghTokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_… （细粒度令牌）">
+          <button class="f-add" id="ghTokenSave" type="button">保存令牌</button>
+        </div>
+        <p class="pub-token-help">创建方式：github.com → Settings → Developer settings → Fine-grained tokens → Generate：<br>① Repository access 选 <b>Only select repositories → ponm3ay/ponm3ay.github.io</b>；② Permissions → Contents → <b>Read and write</b>；③ 生成后粘贴到上面保存。令牌仅存于本浏览器 localStorage，可随时清除；泄露风险等于把该仓库写权限交给这台设备。</p>
+      </div>
+      <div class="pub-status mono" id="pubStatus" hidden></div>
       <div class="admin-actions mono">
-        <button class="btn btn-solid" id="adminSave" type="button">保存到本浏览器<span class="btn-en mono">SAVE</span></button>
+        <button class="btn btn-solid" id="adminPublish" type="button">发布到 GitHub<span class="btn-en mono">PUBLISH</span></button>
+        <button class="btn btn-ghost" id="adminSave" type="button">保存到本浏览器<span class="btn-en mono">SAVE</span></button>
         <button class="btn btn-ghost" id="adminExport" type="button">导出 content.json<span class="btn-en mono">EXPORT</span></button>
         <button class="btn btn-ghost btn-danger" id="adminReset" type="button">恢复默认</button>
         <button class="admin-logout mono" id="adminLogout" type="button">退出登录</button>

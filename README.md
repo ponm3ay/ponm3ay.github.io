@@ -21,6 +21,13 @@ python -m http.server  # 或直接双击 index.html（管理后台也可用）
 3. 编辑内容 → **保存到本浏览器**：立即生效，但仅本机可见
 4. **导出 content.json**：把导出的文件放到站点根目录并提交到仓库，改动即对全网生效
 
+### 直接发布到 GitHub（免 git 命令）
+
+1. 首次点「发布到 GitHub」会弹出令牌配置：按说明创建**细粒度令牌**（仅授 `ponm3ay/ponm3ay.github.io` 的 Contents 读写），粘贴保存
+2. 之后每次改完内容点「发布到 GitHub」→ 自动提交 `content.json` 到仓库 → Pages 约 1-2 分钟自动上线
+3. 令牌仅存本机浏览器 localStorage（可随时在后台清除）；提交记录带 commit 链接可点击查看
+4. 「导出 content.json」+ git push 的老流程依然可用（两者效果相同）
+
 ### 头像上传
 
 - 档案区有独立的**干员肖像板块**：解锁 ADMIN 后，悬停肖像点「▲ 上传图像」直接从本地选图（自动等比压缩至 640px、JPEG 86%，约几十 KB）

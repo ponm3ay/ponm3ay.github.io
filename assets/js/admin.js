@@ -380,6 +380,92 @@
   }
   window.P3Admin = { applyLocalPatch: applyLocalPatch };
 
+  /* ---------- GitHub 直发（Contents API，令牌仅存本机 localStorage） ---------- */
+  var GH_LS_TOKEN = 'p3_gh_token';
+  var GH_API = 'https://api.github.com/repos/ponm3ay/ponm3ay.github.io/contents/content.json';
+
+  function pubStatusEl() { return document.getElementById('pubStatus'); }
+  function pubSay(msg, cls, html) {
+    var el = pubStatusEl();
+    if (!el) return;
+    el.hidden = false;
+    el.className = 'pub-status mono' + (cls ? ' ' + cls : '');
+    if (html) el.innerHTML = msg; else el.textContent = msg;
+  }
+
+  function utf8ToB64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  async function ghPublish() {
+    var token = '';
+    try { token = localStorage.getItem(GH_LS_TOKEN) || ''; } catch (e) { /* noop */ }
+    var tokenBox = document.getElementById('pubToken');
+    if (!token) { tokenBox.hidden = false; document.getElementById('ghTokenInput').focus(); pubSay('首次发布需要配置 GitHub 令牌（见下方说明），保存后重试发布。', 'err'); return; }
+    var btn = document.getElementById('adminPublish');
+    btn.disabled = true;
+    try {
+      // 1. 取当前文件 sha（不存在则视为新建）
+      pubSay('① 获取远端文件状态…');
+      var sha = null;
+      var gr = await fetch(GH_API, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } });
+      if (gr.status === 200) { sha = (await gr.json()).sha; }
+      else if (gr.status !== 404) {
+        throw new Error('提交失败：读取远端 HTTP ' + gr.status + (gr.status === 401 ? '（令牌无效或过期）' : gr.status === 403 ? '（令牌无 Contents 写权限）' : ''));
+      }
+      // 2. PUT 提交 draft（与导出一致）
+      pubSay('② 提交 content.json 到 main 分支…');
+      var payload = {
+        message: 'content update via admin console · ' + new Date().toLocaleString('zh-CN', { hour12: false }),
+        content: utf8ToB64(JSON.stringify(draft, null, 2)),
+        branch: 'main'
+      };
+      if (sha) payload.sha = sha;
+      var pr = await fetch(GH_API, {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!pr.ok) {
+        var msg = 'HTTP ' + pr.status;
+        try { var j = await pr.json(); if (j.message) msg = j.message; } catch (e2) { /* noop */ }
+        throw new Error('提交失败：' + msg + (pr.status === 401 ? '（令牌无效/过期，可重新保存令牌）' : ''));
+      }
+      var rj = await pr.json();
+      var url = (rj.commit && rj.commit.html_url) || '';
+      // 3. 同步本地视图
+      try { localStorage.setItem(LS_KEY, JSON.stringify(draft)); } catch (e3) { /* noop */ }
+      window.P3App.content = clone(draft);
+      window.P3App.render();
+      liveHint.hidden = false;
+      pubSay('✓ 已提交 <a href="' + url + '" target="_blank" rel="noopener">' + (rj.commit ? String(rj.commit.sha).slice(0, 7) : '') + '</a> · GitHub Pages 约 1-2 分钟后自动上线，到时刷新页面即可', 'ok', true);
+      if (window.P3Toast) window.P3Toast('已发布到 GitHub · 等待 Pages 自动上线');
+      tokenBox.hidden = true;
+    } catch (e) {
+      pubSay('✗ ' + e.message, 'err');
+      if (window.P3Toast) window.P3Toast('发布失败：' + e.message.slice(0, 60));
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function initPublish() {
+    var btn = document.getElementById('adminPublish');
+    var box = document.getElementById('pubToken');
+    var saveT = document.getElementById('ghTokenSave');
+    var inp = document.getElementById('ghTokenInput');
+    if (!btn) return;
+    btn.addEventListener('click', function () { ghPublish(); });
+    saveT.addEventListener('click', function () {
+      var v = inp.value.trim();
+      if (!v) { pubSay('令牌为空，未保存。', 'err'); return; }
+      try { localStorage.setItem(GH_LS_TOKEN, v); } catch (e) { pubSay('保存失败：' + e.message, 'err'); return; }
+      inp.value = '';
+      box.hidden = true;
+      pubSay('令牌已保存到本浏览器。再点一次「发布到 GitHub」即可提交。', 'ok');
+    });
+  }
+
   /* ---------- 保存 / 导出 / 重置 ---------- */
   function hasLocal() { try { return !!localStorage.getItem(LS_KEY); } catch (e) { return false; } }
 
@@ -486,6 +572,7 @@
     document.getElementById('tokenForm').addEventListener('submit', checkToken);
     bindInputs();
     initPortraitUpload();
+    initPublish();
     syncAdminBody();
     document.getElementById('adminSave').addEventListener('click', save);
     document.getElementById('adminExport').addEventListener('click', exportJson);
