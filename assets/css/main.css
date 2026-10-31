@@ -296,6 +296,7 @@ body:not(.p3-admin) .admin-only{display:none !important}
 /* hover: 外环提亮 + 扫描加速 */
 .core-visual:hover .core-ring{stroke:rgba(83,255,24,.55)}
 .core-visual:hover .core-scan{animation-duration:1.4s}
+.core-hint{font-size:10px;color:var(--faint);letter-spacing:.22em;text-align:center;margin-top:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes spinRev{to{transform:rotate(-360deg)}}
 .core-scan{
@@ -306,6 +307,8 @@ body:not(.p3-admin) .admin-only{display:none !important}
 @keyframes coreScan{0%,100%{top:8%}50%{top:90%}}
 .status-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-width:1px 0 0 1px}
 .status-grid>div{background:var(--bg1);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 14px}
+/* 访客视图 SECTOR 隐藏后，末格跨两列避免栅格留洞 */
+body:not(.p3-admin) .status-grid>div:last-child{grid-column:1/-1}
 .status-grid dt{font-size:10px;color:var(--faint);letter-spacing:.2em;margin-bottom:3px}
 .status-grid dd{font-size:12.5px;color:var(--text);letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .status-grid dd.ok{color:var(--ok)}
@@ -501,7 +504,7 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .ops-btn:hover{border-color:var(--ak-deep);color:var(--ak-deep);background:var(--ak-soft)}
 .ops-viewport{
   overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;outline-offset:6px;
-  mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 140px),rgba(0,0,0,.25) calc(100% - 40px),transparent 100%);
+  mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 44px),rgba(0,0,0,.72) calc(100% - 20px),rgba(0,0,0,.72) 100%);
 }
 .ops-viewport.at-end{mask-image:none}
 .ops-viewport::-webkit-scrollbar{display:none}
