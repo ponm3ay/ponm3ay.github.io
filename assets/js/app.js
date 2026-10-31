@@ -83,6 +83,9 @@
     initCountUp();
     initTimelineGrown();
     initLuxury();
+    initCaseViewer();
+    initCorePulse();
+    if (!RM) initTitleTicker();
     document.title = C.meta && C.meta.siteTitle ? C.meta.siteTitle : document.title;
   }
 
@@ -157,7 +160,7 @@
     track.innerHTML = C.operations.map(function (o, idx) {
       var link = o.link || '#';
       var no = esc(o.no || 'OP-' + String(idx + 1).padStart(2, '0'));
-      return '<article class="op-card" tabindex="0" style="--i:' + idx + '" aria-label="' + no + ' ' + esc(o.title) + '">' +
+      return '<article class="op-card" tabindex="0" data-idx="' + idx + '" style="--i:' + idx + '" aria-label="' + no + ' ' + esc(o.title) + '">' +
         '<div class="op-top mono"><span class="op-no">' + no + '</span>' +
         '<span class="op-status ' + statusClass(o.st) + '">' + esc(o.status || '') + '</span></div>' +
         '<h3 class="op-title"><a href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(o.title) + '</a></h3>' +
@@ -167,7 +170,7 @@
         '<div class="op-meta mono"><span>' + esc(o.meta || '') + '</span>' +
         '<a href="' + esc(link) + '" target="_blank" rel="noopener">OPEN CASE ↗</a></div>' +
         '</div>' +
-        '<div class="op-veil mono" aria-hidden="true"><span class="veil-no">' + no.replace(/^OP-/, '') + '</span><span class="veil-hint">▸▸ 悬停 / 聚焦展开 CASE FILE</span></div>' +
+        '<div class="op-veil mono" aria-hidden="true"><span class="veil-no">' + no.replace(/^OP-/, '') + '</span><span class="veil-hint">▸▸ 悬停 / 聚焦展开 · 点击详查</span></div>' +
         '</article>';
     }).join('');
     var total = document.getElementById('opsTotal');
@@ -480,6 +483,86 @@
       });
     }, { threshold: 0.2 });
     io.observe(box);
+  }
+
+  /* ---------- Round52 作战详查器 Lightbox ---------- */
+  var cvLastFocus = null;
+  function openCase(idx) {
+    var o = (C.operations || [])[idx];
+    var cv = document.getElementById('caseViewer');
+    if (!o || !cv) return;
+    cvLastFocus = document.activeElement;
+    var noRaw = String(o.no || 'OP-' + String(idx + 1).padStart(2, '0'));
+    document.getElementById('cvNo').textContent = noRaw.replace(/^OP-/, '');
+    document.getElementById('cvNoLabel').textContent = noRaw;
+    var stEl = document.getElementById('cvStatus');
+    stEl.textContent = o.status || '';
+    stEl.className = 'cv-status ' + statusClass(o.st);
+    document.getElementById('cvTitle').textContent = o.title || '';
+    document.getElementById('cvDesc').textContent = o.desc || '';
+    document.getElementById('cvTags').innerHTML = (o.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
+    document.getElementById('cvMeta').textContent = o.meta || '';
+    document.getElementById('cvLink').href = o.link || '#';
+    cv.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('cvClose').focus();
+  }
+  function closeCase() {
+    var cv = document.getElementById('caseViewer');
+    if (!cv || cv.hidden) return;
+    cv.hidden = true;
+    document.body.style.overflow = '';
+    if (cvLastFocus && cvLastFocus.focus) cvLastFocus.focus();
+  }
+  function initCaseViewer() {
+    var cv = document.getElementById('caseViewer');
+    if (!cv) return;
+    document.addEventListener('click', function (e) {
+      var card = e.target.closest('.op-card');
+      if (card && e.target.closest('a')) return;          // 卡内链接照常跳转
+      if (card) { e.preventDefault(); openCase(+card.getAttribute('data-idx')); return; }
+      if (e.target.closest('[data-cv-close]')) closeCase();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeCase();
+    });
+    document.getElementById('cvClose').addEventListener('click', closeCase);
+  }
+
+  /* ---------- Round53 彩蛋：核心脉冲 + 标题轮播 ---------- */
+  function initCorePulse() {
+    var core = document.querySelector('.core-visual');
+    if (!core) return;
+    core.style.cursor = 'pointer';
+    core.title = '双击发送核心脉冲';
+    var busy = false;
+    core.addEventListener('dblclick', function () {
+      if (busy) return;
+      busy = true;
+      core.classList.add('core-pulse');
+      var sync = document.getElementById('syncVal');
+      var prev = sync ? sync.textContent : '';
+      if (sync) sync.textContent = '100.0';
+      toast('CORE PULSE · 核心脉冲已发送 · SYNC 100.0%');
+      setTimeout(function () {
+        core.classList.remove('core-pulse');
+        if (sync) sync.textContent = prev;
+        busy = false;
+      }, 1400);
+    });
+  }
+  function initTitleTicker() {
+    var titles = [
+      'PONM3AY // PERSONAL ARCHIVE',
+      '▸▸ DEEP SLEEP PROTOCOL ACTIVE',
+      '◈ SIGNAL MONITORING · SYNC 99.9%',
+      '▸▸ CASE FILES READY · 06 OPERATIONS'
+    ];
+    var i = 0;
+    setInterval(function () {
+      i = (i + 1) % titles.length;
+      document.title = titles[i];
+    }, 6000);
   }
 
   /* ---------- Round49 豪华交互：3D tilt / CTA 磁吸 / hero 视差（仅精确指针） ---------- */

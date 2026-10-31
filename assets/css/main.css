@@ -264,7 +264,13 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .status-card{padding:22px;background:rgba(255,255,255,.54);backdrop-filter:blur(8px);box-shadow:0 24px 80px rgba(17,20,18,.12)}
 .status-head{display:flex;justify-content:space-between;font-size:11px;color:var(--faint);letter-spacing:.16em;margin-bottom:14px}
 .status-head .sync b{color:var(--ak-deep);font-weight:600}
-.core-visual{position:relative;width:200px;margin:0 auto 14px}
+.core-visual{position:relative;width:200px;margin:0 auto 14px;cursor:pointer}
+.core-visual::after{
+  content:"";position:absolute;inset:0;border:1.5px solid var(--ak);
+  opacity:0;transform:scale(.85);pointer-events:none;
+}
+.core-visual.core-pulse::after{animation:corePulse .7s ease-out 2}
+@keyframes corePulse{0%{opacity:.9;transform:scale(.82)}100%{opacity:0;transform:scale(1.4)}}
 .core-visual svg{width:100%;height:auto;display:block}
 .core-spin{transform-origin:100px 100px;animation:spin 22s linear infinite}
 .core-spin-rev{transform-origin:100px 100px;animation:spinRev 30s linear infinite}
@@ -764,6 +770,38 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .f-avatar-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .f-avatar-prev{width:64px;height:64px;object-fit:cover;border:1px solid var(--line-strong);background:var(--bg1)}
 .f-file{font-size:12px;color:var(--dim)}
+
+/* ============================================================
+   作战详查器 Lightbox（Round52）
+   ============================================================ */
+.case-viewer{position:fixed;inset:0;z-index:160;display:flex;align-items:center;justify-content:center;padding:24px}
+.case-viewer[hidden]{display:none}
+.cv-backdrop{position:absolute;inset:0;background:rgba(5,6,8,.82);backdrop-filter:blur(8px);animation:fadeIn .3s}
+.cv-box{
+  position:relative;width:min(880px,100%);max-height:min(80vh,720px);overflow:auto;
+  background:var(--bg1);border:1px solid var(--line-strong);
+  padding:34px 40px 30px;
+  clip-path:polygon(0 0,0 0,0 100%,0 100%);
+  animation:cvReveal .55s var(--ease-out) .05s forwards;
+}
+@keyframes cvReveal{to{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}}
+.cv-watermark{
+  position:absolute;right:18px;top:6px;font-family:var(--f-disp);font-weight:700;
+  font-size:150px;line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(31,185,0,.18);
+  user-select:none;pointer-events:none;letter-spacing:.02em;
+}
+.cv-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cv-head-l{display:flex;align-items:center;gap:16px}
+.cv-no{font-size:12px;color:var(--ak-deep);letter-spacing:.26em;font-weight:600}
+.cv-status{font-size:9.5px;letter-spacing:.18em;padding:4px 12px;border:1px solid rgba(31,185,0,.5);background:var(--ak-soft);color:var(--ak-deep);clip-path:var(--clip-btn-sm)}
+.cv-title{font-family:var(--f-disp);font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:.02em;margin-bottom:16px;word-break:break-all}
+.cv-desc{font-size:15.5px;color:var(--dim);line-height:2.1;margin-bottom:22px;max-width:60em}
+.cv-box .op-tags{margin-bottom:26px}
+.cv-foot{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px;font-size:11px;color:var(--faint);letter-spacing:.14em}
+.cv-stripe{
+  position:absolute;left:0;right:0;bottom:0;height:5px;
+  background:repeating-linear-gradient(-45deg,var(--ak) 0 12px,#111412 12px 24px);opacity:.7;
+}
 
 /* ============================================================
    Toast
