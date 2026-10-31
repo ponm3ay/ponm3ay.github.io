@@ -173,6 +173,13 @@ QA 环境：本机 Edge 156 无头（127.0.0.1:9222 常驻）+ node 静态服务
 **终态回归**: 交互 10/10 ✓ 盲审 0/0/0 ✓ 宽度扫描无溢出 ✓ 头像 E2E 6/6 ✓ 移动端实拍导航/汉堡/跳转正常 ✓。
 **教训入库**: CSS 改动后必须重跑 widths.js（grid 轨道最小值溢出 audit.js 检测不到）；新增覆盖 [hidden] 的类样式时必须同时写 [hidden]{display:none!important}。
 
+## Round 40（用户追加：管理后台直发 GitHub）
+**需求**: "admin 修改只能保存到本地吗？能不能直接上传"。
+**实现**: Contents API 直发 —— 后台新增「发布到 GitHub」主按钮：GET sha → PUT content.json（draft，UTF-8→base64）→ 带 sha 防冲突，401/403 错误分诊话术；首次发布弹令牌配置（细粒度 PAT 指引：仅授 ponm3ay/ponm3ay.github.io 的 Contents RW），令牌仅存本机 localStorage 可清除；发布状态行带步骤进度 + commit 短链 + Pages 上线提示。
+**E2E**: 假令牌走错误路径；真令牌（本机 gh 会话注入测试页，不落文件）真实提交 `18c7c4b content update via admin console` 到仓库全链路验证 ✓，零 JS 错误。
+**注意**: 令牌安全边界 = 把该仓库写权限交给这台设备；用户应自建细粒度令牌（不要复用宽权限 CLI 令牌）。
+
+
 
 
 
