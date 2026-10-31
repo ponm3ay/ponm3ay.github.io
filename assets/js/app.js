@@ -80,6 +80,8 @@
     renderAvatar();
     renderMeta();
     scanTodo();
+    initCountUp();
+    initTimelineGrown();
     document.title = C.meta && C.meta.siteTitle ? C.meta.siteTitle : document.title;
   }
 
@@ -154,7 +156,7 @@
     track.innerHTML = C.operations.map(function (o, idx) {
       var link = o.link || '#';
       var no = esc(o.no || 'OP-' + String(idx + 1).padStart(2, '0'));
-      return '<article class="op-card" tabindex="0" aria-label="' + no + ' ' + esc(o.title) + '">' +
+      return '<article class="op-card" tabindex="0" style="--i:' + idx + '" aria-label="' + no + ' ' + esc(o.title) + '">' +
         '<div class="op-top mono"><span class="op-no">' + no + '</span>' +
         '<span class="op-status ' + statusClass(o.st) + '">' + esc(o.status || '') + '</span></div>' +
         '<h3 class="op-title"><a href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(o.title) + '</a></h3>' +
@@ -184,14 +186,14 @@
   function renderTimeline() {
     var box = document.getElementById('timeline');
     if (!box || !C.log) return;
-    box.innerHTML = C.log.map(function (l) {
-      return '<div class="log-item reveal">' +
+    box.innerHTML = '<span class="rail" aria-hidden="true"></span>' + C.log.map(function (l, i) {
+      return '<div class="log-item" style="--i:' + i + '">' +
         '<p class="log-date mono">' + esc(l.date) + '</p>' +
         '<div class="log-head"><h3 class="log-title">' + esc(l.title) + '</h3>' +
         '<span class="log-status ' + statusClass(l.st) + '">' + esc(l.status || '') + '</span></div>' +
         '<p class="log-text">' + esc(l.text) + '</p></div>';
     }).join('');
-    observeReveals(box);
+    scanTodo();
   }
 
   function renderTicker() {
@@ -417,6 +419,12 @@
     var i = Math.round(vp.scrollLeft / w) + 1;
     idxEl.textContent = String(Math.min(Math.max(i, 1), cards.length)).padStart(2, '0');
     vp.classList.toggle('at-end', vp.scrollLeft + vp.clientWidth >= vp.scrollWidth - 12);
+    var prog = document.getElementById('opsProgress');
+    if (prog) {
+      var max = vp.scrollWidth - vp.clientWidth;
+      var ratio = max > 0 ? Math.min(1, vp.scrollLeft / max) : 1;
+      prog.style.width = Math.max(8, ratio * 100) + '%';
+    }
   }
 
   /* ---------- SYNC 数值抖动 ---------- */
@@ -426,6 +434,55 @@
     setInterval(function () {
       el.textContent = (99 + Math.random()).toFixed(1);
     }, 2600);
+  }
+
+  /* ---------- 数字 count-up（统计带） ---------- */
+  function countUp(el) {
+    if (el.dataset.counted) return;
+    el.dataset.counted = '1';
+    var raw = el.textContent.trim();
+    var m = raw.match(/^(\d*)\.?(\d*)$/);
+    if (!m || (!m[1] && !m[2])) return; // 非纯数字（如 2022.10 也匹配）→ 继续尝试
+    if (raw.indexOf('.') !== -1 && !/^\d+\.\d+$/.test(raw)) return;
+    var hasDot = raw.indexOf('.') !== -1;
+    var intLen = hasDot ? raw.split('.')[0].length : raw.length;
+    var decLen = hasDot ? raw.split('.')[1].length : 0;
+    var target = parseFloat(raw);
+    if (isNaN(target)) return;
+    var DUR = RM ? 0 : 1300, t0 = null;
+    function frame(t) {
+      if (!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / DUR);
+      var e = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      var v = (target * e).toFixed(decLen);
+      var s = hasDot ? v : String(Math.round(v)).padStart(intLen, '0');
+      el.textContent = s;
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    el.textContent = hasDot ? (0).toFixed(decLen) : '0'.padStart(intLen, '0');
+    requestAnimationFrame(frame);
+  }
+  function initCountUp() {
+    var els = document.querySelectorAll('.stat-num[data-c]');
+    if (RM) { els.forEach(function (el) { el.dataset.counted = '1'; }); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (en.isIntersecting) { countUp(en.target); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.4 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+  /* 时间线轨道生长 */
+  function initTimelineGrown() {
+    var box = document.getElementById('timeline');
+    if (!box) return;
+    if (RM) { box.classList.add('grown'); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (en.isIntersecting) { box.classList.add('grown'); io.disconnect(); }
+      });
+    }, { threshold: 0.2 });
+    io.observe(box);
   }
 
   /* ---------- 启动 ---------- */
