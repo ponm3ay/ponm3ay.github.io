@@ -272,8 +272,26 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .core-visual.core-pulse::after{animation:corePulse .7s ease-out 2}
 @keyframes corePulse{0%{opacity:.9;transform:scale(.82)}100%{opacity:0;transform:scale(1.4)}}
 .core-visual svg{width:100%;height:auto;display:block}
-.core-spin{transform-origin:100px 100px;animation:spin 22s linear infinite}
-.core-spin-rev{transform-origin:100px 100px;animation:spinRev 30s linear infinite}
+.core-spin{transform-box:fill-box;transform-origin:center;animation:spin 22s linear infinite}
+/* Round55: 菱形矩阵分层动效 */
+.core-ring{transform-box:fill-box;transform-origin:center;animation:spinRev 46s linear infinite}
+.core-mid{transform-box:fill-box;transform-origin:center;animation:spinRev 13s linear infinite}
+.core-heart{transform-box:fill-box;transform-origin:center;animation:heartBeat 2.4s ease-in-out infinite}
+@keyframes heartBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.orb{offset-path:path('M100 30 170 100 100 170 30 100Z');offset-rotate:0deg}
+.orb1{animation:orbRun 7s linear infinite}
+.orb2{animation:orbRun 10s linear infinite;animation-delay:-3.4s}
+.orb3{animation:orbRun 13s linear infinite;animation-delay:-8s}
+@keyframes orbRun{from{offset-distance:0%}to{offset-distance:100%}}
+/* 自动波纹（每 6s 一圈） */
+.core-visual::before{
+  content:"";position:absolute;inset:0;border:1.5px solid var(--ak);
+  opacity:0;transform:scale(.85);pointer-events:none;
+  animation:corePulse 6s ease-out infinite;
+}
+/* hover: 外环提亮 + 扫描加速 */
+.core-visual:hover .core-ring{stroke:rgba(83,255,24,.55)}
+.core-visual:hover .core-scan{animation-duration:1.4s}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes spinRev{to{transform:rotate(-360deg)}}
 .core-scan{
@@ -826,6 +844,8 @@ body:not(.p3-admin) .admin-only{display:none !important}
   .reveal{opacity:1;transform:none}
   #boot{display:none}
   .op-veil{display:none}
+  .orb{display:none}
+  .core-visual::before{animation:none;opacity:0}
   .op-body .op-desc,.op-body .op-tags,.op-body .op-meta{filter:none;opacity:1}
 }
 @media print{
