@@ -200,6 +200,19 @@ QA 环境：本机 Edge 156 无头（127.0.0.1:9222 常驻）+ node 静态服务
 **结论：加载性能全面超越**（公网 brotli 后总传输 58.2KB）。动画全部 transform/opacity/clip-path 合成层友好。
 **回归**: 交互 10/10、盲审 0/0/0、宽度 0 溢出；线上 `d6914b5` 时间线编排实拍 ✓。
 
+## Round 46-47（第四期评审闭环 + QA 浏览器隔离改造）
+**第四期零上下文评审: PASS**（六维 9.0/8.5/9.0/8.0/8.5/8.5；结论"新交互是延伸而非贴花，编排克制不喧宾"）。采纳全部建议：
+1. [P1] modules 扫光溢出格子 → `.modules-grid li{overflow:hidden}`。
+2. [P2] 轮播进度条映射错误（8.3%≠1/6）→ 改为索引/总数映射（首格 16.7%）。
+3. [P2] 日期型 count-up 出现 1706.27 无意义中间值 → `YYYY.MM` 格式跳过插值。
+4. [P2] QA 截图中间帧失真 → shot.js 支持 RM 模拟拍终态（后续）；移动端顶栏 fullPage 伪影已有实机铁证（r38/r39）。
+**QA 浏览器隔离改造（用户要求"用自己的浏览器，别动我 edge"）**:
+- 新增 `_qa/browser.js` 共享启动器，三级探测：自带 Chrome for Testing（npmmirror 下载中）→ chrome-headless-shell → 系统 Edge + **独立 profile（.chrome-data），永不 taskkill 用户进程**。
+- 6 个 QA 脚本全部切换 launch/close 模式；此前反复 taskkill msedge 导致用户浏览器被连带关闭的问题根治。
+- 隔离链路全量回归：交互 10/10 ✓ 盲审 0/0/0 ✓ 宽度 0 溢出 ✓ 头像 E2E 6/6 ✓（本地 FCP 80ms）。
+**线上**: commit `04a573b` built，`opsProgress` 等新交互已生效。
+
+
 
 ## Round 40（用户追加：管理后台直发 GitHub）
 **需求**: "admin 修改只能保存到本地吗？能不能直接上传"。
