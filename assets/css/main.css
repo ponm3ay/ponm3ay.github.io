@@ -277,22 +277,16 @@ body:not(.p3-admin) .admin-only{display:none !important}
 .core-ring{transform-box:fill-box;transform-origin:center;animation:spinRev 46s linear infinite}
 .core-mid{transform-box:fill-box;transform-origin:center;animation:spinRev 13s linear infinite}
 .core-heart{transform-box:fill-box;transform-origin:center;animation:heartBeat 2.4s ease-in-out infinite}
-/* Round56: 双击时四层菱形由内向外波浪响应 */
+/* 数据粒子已按用户要求移除（R57） */
+/* Round56: 双击时四层菱形由内向外波浪响应（R57: 粒子已删，四层） */
 .boom-l{transform-box:fill-box;transform-origin:center}
 .core-visual.core-boom .boom-l{animation:boomWave .9s var(--ease-out) both}
-.core-visual.core-boom .boom-l:nth-of-type(5){animation-delay:0s}
-.core-visual.core-boom .boom-l:nth-of-type(4){animation-delay:.07s}
-.core-visual.core-boom .boom-l:nth-of-type(3){animation-delay:.14s}
-.core-visual.core-boom .boom-l:nth-of-type(2){animation-delay:.21s}
-.core-visual.core-boom .boom-l:nth-of-type(1){animation-delay:.28s}
-.core-visual.core-boom .boom-l:nth-of-type(4) .orb{filter:brightness(2.4)}
+.core-visual.core-boom .boom-l:nth-of-type(4){animation-delay:0s}
+.core-visual.core-boom .boom-l:nth-of-type(3){animation-delay:.07s}
+.core-visual.core-boom .boom-l:nth-of-type(2){animation-delay:.14s}
+.core-visual.core-boom .boom-l:nth-of-type(1){animation-delay:.21s}
 @keyframes boomWave{0%{transform:scale(1)}38%{transform:scale(1.17)}100%{transform:scale(1)}}
 @keyframes heartBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
-.orb{offset-path:path('M100 30 170 100 100 170 30 100Z');offset-rotate:0deg}
-.orb1{animation:orbRun 7s linear infinite}
-.orb2{animation:orbRun 10s linear infinite;animation-delay:-3.4s}
-.orb3{animation:orbRun 13s linear infinite;animation-delay:-8s}
-@keyframes orbRun{from{offset-distance:0%}to{offset-distance:100%}}
 /* 自动波纹（每 6s 一圈） */
 .core-visual::before{
   content:"";position:absolute;inset:0;border:1.5px solid var(--ak);
@@ -854,7 +848,6 @@ body:not(.p3-admin) .admin-only{display:none !important}
   .reveal{opacity:1;transform:none}
   #boot{display:none}
   .op-veil{display:none}
-  .orb{display:none}
   .core-visual::before{animation:none;opacity:0}
   .op-body .op-desc,.op-body .op-tags,.op-body .op-meta{filter:none;opacity:1}
 }
