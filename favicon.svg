@@ -5,11 +5,10 @@
       <stop offset="1" stop-color="#1fb900"/>
     </linearGradient>
   </defs>
-  <!-- 六边形终端节点 + 脉冲角标：标签页图标 -->
-  <path d="M32 3 55 16.5v27L32 57 9 43.5v-27Z" fill="#f3f5f2" stroke="#111412" stroke-width="3"/>
-  <path d="M32 12 47.5 21v18L32 48 16.5 39V21Z" fill="none" stroke="#1fb900" stroke-width="2"/>
-  <rect x="19" y="27" width="22" height="3.4" fill="url(#g)"/>
-  <rect x="19" y="34" width="15" height="3.4" fill="#111412"/>
-  <rect x="19" y="20.5" width="9" height="3.4" fill="#111412"/>
-  <path d="M49 7l4.2 1.1L54 12l-1.1 4.2L48.7 17 44.5 15.9 43.5 11.7 44.6 7.6Z" fill="#53ff18" stroke="#111412" stroke-width="1.6"/>
+  <!-- DEEP SLEEP PROTOCOL 标：墨色六边芯片 + 荧光绿脑电脉冲 + Z 角标 -->
+  <path d="M32 3 55 16.5v27L32 57 9 43.5v-27Z" fill="#111412" stroke="#53ff18" stroke-width="2.5"/>
+  <path d="M32 12 47.5 21v18L32 48 16.5 39V21Z" fill="none" stroke="rgba(83,255,24,.32)" stroke-width="1.4"/>
+  <polyline points="15,33 23,33 27,24 33,42 37,29 40,33 45,33" fill="none" stroke="url(#g)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="27" cy="24" r="2.4" fill="#53ff18"/>
+  <path d="M47.5 17.5h6.4l-6.4 6.4h6.4" fill="none" stroke="#53ff18" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

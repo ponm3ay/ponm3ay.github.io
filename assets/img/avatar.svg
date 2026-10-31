@@ -9,17 +9,11 @@
       <rect width="6" height="12" fill="#e7ebe4"/>
     </pattern>
   </defs>
-  <!-- 干员默认头像：六边形容器 + 信号节点（与旧菱形完全不同） -->
+  <!-- 干员默认头像：DEEP SLEEP 波形标 -->
   <rect width="120" height="120" fill="url(#ahz)"/>
-  <path d="M60 10 103.8 35v50L60 110 16.2 85V35Z" fill="#fbfcfa" stroke="#111412" stroke-width="2.5"/>
-  <path d="M60 22 93.5 41v38L60 98 26.5 79V41Z" fill="none" stroke="#1fb900" stroke-width="1.4"/>
-  <circle cx="60" cy="60" r="7" fill="url(#ag)" stroke="#111412" stroke-width="1.6"/>
-  <g stroke="#111412" stroke-width="1.4" opacity=".8">
-    <path d="M60 40v-9M60 89v-9M40 60h-9M89 60h-9" stroke-linecap="square"/>
-  </g>
-  <circle cx="60" cy="31" r="2.6" fill="#111412"/>
-  <circle cx="60" cy="89" r="2.6" fill="#111412"/>
-  <circle cx="31" cy="60" r="2.6" fill="#111412"/>
-  <circle cx="89" cy="60" r="2.6" fill="#111412"/>
-  <text x="60" y="107" text-anchor="middle" font-family="Consolas,monospace" font-size="7" fill="#69706d" letter-spacing="3">SIGNAL</text>
+  <path d="M60 10 103.8 35v50L60 110 16.2 85V35Z" fill="#111412" stroke="#1fb900" stroke-width="2.5"/>
+  <path d="M60 22 93.5 41v38L60 98 26.5 79V41Z" fill="none" stroke="rgba(83,255,24,.3)" stroke-width="1.4"/>
+  <polyline points="28,60 44,60 52,42 68,78 76,54 82,60 92,60" fill="none" stroke="url(#ag)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="42" r="3.6" fill="#53ff18"/>
+  <text x="60" y="107" text-anchor="middle" font-family="Consolas,monospace" font-size="7" fill="#69706d" letter-spacing="3">DEEP SLEEP</text>
 </svg>
